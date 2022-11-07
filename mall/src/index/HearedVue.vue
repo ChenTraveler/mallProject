@@ -8,7 +8,9 @@
 <script>
 export default {
   data() {
-    return {}
+    return {
+      msg: 1111,
+    }
   },
   methods: {},
   created() {},
