@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import FooterVue from './components/FooterVue.vue'
+import FooterVue from './components/index/FooterVue.vue'
 export default {
   components: {
     FooterVue,

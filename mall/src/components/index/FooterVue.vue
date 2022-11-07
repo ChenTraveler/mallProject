@@ -93,12 +93,12 @@
           <title>
             手机天猫
           </title>
-          <a href="#"><img src="../../public/images/index/a100.png"
+          <a href="#"><img src="../../../public/images/index/a100.png"
                  alt=""></a>
         </li>
 
       </ul>
-      <img src="../../public/images/index/a101.png"
+      <img src="../../../public/images/index/a101.png"
            alt="">
     </div>
   </div>
@@ -130,7 +130,7 @@ export default {
       width: 113px;
       height: 31px;
       margin: 0 auto;
-      background: url(../../public/images/index/a102.png) no-repeat;
+      background: url(../../../public/images/index/a102.png) no-repeat;
       a {
         display: inline-block;
         width: 50px;
