@@ -1,6 +1,6 @@
 ### 请求的根路径
 
-> http://www.liulongbin.top:3006
+> http://localhost:3000
 
 
 
