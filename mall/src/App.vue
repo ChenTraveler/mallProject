@@ -5,7 +5,7 @@
 <script>
 export default {
   setup() {
-    const a = 1
+    const a = 2
   },
 }
 </script>
