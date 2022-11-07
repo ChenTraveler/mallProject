@@ -1,14 +1,12 @@
 <template>
-  <FooterVue />
+  <div></div>
 </template>
 
 <script>
-import FooterVue from './components/FooterVue.vue'
-import { ref } from 'vue'
-
 export default {
-  components: { FooterVue },
-  setup() {},
+  setup() {
+    const a = 2
+  },
 }
 </script>
 
