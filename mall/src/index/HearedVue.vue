@@ -1,7 +1,6 @@
 <template>
   <div>
-    <img src="../../public/images/index/a1.jpg"
-         alt="">
+    <img src="../../public/images/index/a1.jpg" alt="">
   </div>
 </template>
 
