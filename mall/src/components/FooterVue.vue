@@ -1,6 +1,6 @@
 <template>
   <div class="footer">
-    <!-- 导航栏 -->
+    <!-- 导航栏1 -->
     <div class="nav">
       <a class="biao"
          href="#">
@@ -43,6 +43,7 @@
         </div>
       </a>
     </div>
+    <!-- 导航栏二 -->
     <div class="nav1">
       <ul>
         <li>
@@ -90,6 +91,8 @@
         </li>
 
       </ul>
+      <img src="../../public/images/a101.png"
+           alt="">
     </div>
   </div>
 </template>
@@ -119,7 +122,7 @@ export default {
     margin: 0 auto;
     display: flex;
     align-items: center;
-    // padding: 35px 20px;
+    // padding-left: 40px;
     border-bottom: 1px solid #d1d7dc;
     // border-top: 1px solid #d1d7dc;
     .biao {
@@ -128,6 +131,7 @@ export default {
       justify-content: center;
       align-items: center;
       text-decoration: none;
+      padding-left: 20px;
       .left {
         width: 50px;
         height: 50px;
@@ -165,12 +169,14 @@ export default {
     ul {
       width: 100%;
       display: flex;
+      margin-left: -40px;
       // align-items: center;
       li {
         width: 20%;
         display: flex;
         flex-direction: column;
         text-align: left;
+        padding-left: 30px;
 
         title {
           display: block;
@@ -194,6 +200,9 @@ export default {
           text-decoration: underline;
         }
       }
+    }
+    > img {
+      transform: translate(-508px, 4px);
     }
   }
 }
