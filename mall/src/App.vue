@@ -1,8 +1,5 @@
 <template>
-  <div>
-    1111
-    2222
-  </div>
+
 </template>
 
 <script>
