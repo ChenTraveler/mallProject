@@ -3,10 +3,10 @@
 </template>
 
 <script>
-import { ref } from 'vue'
-
 export default {
-  setup() {},
+  setup() {
+    const a = 1
+  },
 }
 </script>
 
