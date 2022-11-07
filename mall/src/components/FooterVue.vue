@@ -1,5 +1,12 @@
 <template>
   <div class="footer">
+    <!-- 切换场景 -->
+    <div class="div">
+      <div>
+        <a href="#"></a>
+        <a href="#"></a>
+      </div>
+    </div>
     <!-- 导航栏1 -->
     <div class="nav">
       <a class="biao"
@@ -86,12 +93,12 @@
           <title>
             手机天猫
           </title>
-          <a href="#"><img src="../../public/images/a100.png"
+          <a href="#"><img src="../../public/images/index/a100.png"
                  alt=""></a>
         </li>
 
       </ul>
-      <img src="../../public/images/a101.png"
+      <img src="../../public/images/index/a101.png"
            alt="">
     </div>
   </div>
@@ -114,8 +121,24 @@ export default {
 <style lang="less" scoped>
 .footer {
   width: 100%;
-  border-top: 1px solid #d1d7dc;
+
   // 导航栏1
+  .div {
+    width: 100%;
+    border-bottom: 1px solid #d1d7dc;
+    div {
+      width: 113px;
+      height: 31px;
+      margin: 0 auto;
+      background: url(../../public/images/index/a102.png) no-repeat;
+      a {
+        display: inline-block;
+        width: 50px;
+        height: 31px;
+        margin-left: 5px;
+      }
+    }
+  }
   .nav {
     width: 1200px;
     // text-align: center;
