@@ -5,7 +5,8 @@
 <script>
 export default {
   data () {
-    return {}
+    return {
+ }
   },
   methods: {},
   created () {},
