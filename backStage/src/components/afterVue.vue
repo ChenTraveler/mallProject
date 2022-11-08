@@ -127,6 +127,7 @@ import {
   DataAnalysis,
 } from "@element-plus/icons-vue";
 import { computed, ref } from "vue";
+
 import {
   Document,
   Menu as IconMenu,
@@ -140,7 +141,6 @@ const handleClose = (key: string, keyPath: string[]) => {};
 // const filterTableData = computed(() =>
 //   tableData.filter(
 //     (data) =>
-// !search.value ||
 //       data.name.toLowerCase().includes(search.value.toLowerCase())
 //   )
 // );

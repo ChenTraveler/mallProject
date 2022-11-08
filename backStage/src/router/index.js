@@ -20,6 +20,11 @@ const routes = [
     path: '/listOfUsers',
     name: 'users',
     component: () => import('../components/listOfUsers.vue')
+  },
+  {
+    path: '/',
+    name: 'index',
+    component: () => import('../components/afterVue.vue')
   }
 ]
 
