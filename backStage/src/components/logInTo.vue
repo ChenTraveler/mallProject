@@ -59,8 +59,8 @@ const validatePass2 = (rule: any, value: any, callback: any) => {
 };
 
 const ruleForm = reactive({
-  passWord: "werwsdfr",
-  userName: "safasdfsd",
+  passWord: "",
+  userName: "",
 });
 
 // 规则定义
@@ -100,8 +100,10 @@ const sendHttp = () => {
     .get("/a", ruleForm)
     .then((res) => {
       //请求成功
+      let data = res.data;
       console.log(res);
       successful();
+      // sessionStorage
     })
     .catch((err) => {
       failure();
