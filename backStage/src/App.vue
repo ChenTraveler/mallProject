@@ -1,4 +1,4 @@
-<template>
+<template v-cloak>
   <router-view></router-view>
 </template>
 
@@ -13,5 +13,8 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped></style>
-
+<style lang="less" scoped>
+[v-cloak] {
+  display: none !important;
+}
+</style>

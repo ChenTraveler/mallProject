@@ -12,7 +12,7 @@
       <el-table-column label="姓名" prop="name" />
       <el-table-column label="级别" prop="level" />
       <el-table-column label="状态" prop="id">
-        <el-switch :id_dat="tableData.id" v-model="tableData.state" style="margin-left:-3px" @click="fn()" />
+        <el-switch v-model="tableData" style="margin-left:-3px" @click="fn()" />
       </el-table-column>
       <el-table-column align="right" prop="state">
         <template #header>

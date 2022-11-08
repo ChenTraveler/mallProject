@@ -3,54 +3,35 @@
     <el-row class="tac">
       <el-col :span="12">
         <div class="father">
-          <el-icon size="50px">
-            <Management />
-          </el-icon>
-          <h1 class="mb-2 title1">
-            施华洛世奇后台管理系统</h1>
+          <div class="father3">
+            <el-icon size="50px" class="icon">
+              <Management />
+            </el-icon>
+            <h1 class="mb-2 title1">
+              施华洛世奇后台管理系统</h1>
+          </div>
+          <button>退出</button>
         </div>
         <!-- 侧边栏区域 -->
         <div class="father2">
           <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
-            background-color="#363d3d" unique-opened="true" router="true">
-            <el-sub-menu index="1">
-              <template #title>
+            background-color="#363d3d" unique-opened>
+            <router-link to="/listOfUsers">
+              <el-menu-item index="1">
                 <el-icon>
                   <User />
                 </el-icon>
                 <span>用户管理</span>
-              </template>
-              <el-menu-item-group title="分类一">
-                <el-menu-item index="1-1">111</el-menu-item>
-                <el-menu-item index="1-2">222</el-menu-item>
-              </el-menu-item-group>
-              <el-menu-item-group title="分类二">
-                <el-menu-item index="1-3">333</el-menu-item>
-              </el-menu-item-group>
-              <el-sub-menu index="1-4">
-                <template #title>444</template>
-                <el-menu-item index="1-4-1">111</el-menu-item>
-              </el-sub-menu>
-            </el-sub-menu>
-            <el-sub-menu index="2">
-              <template #title>
+              </el-menu-item>
+            </router-link>
+            <router-link to="/listOfGoods">
+              <el-menu-item index="2">
                 <el-icon>
-                  <Crop />
+                  <Flag />
                 </el-icon>
-                <span>权限管理</span>
-              </template>
-              <el-menu-item-group title="分类一">
-                <el-menu-item index="2-1">111</el-menu-item>
-                <el-menu-item index="2-2">222</el-menu-item>
-              </el-menu-item-group>
-              <el-menu-item-group title="分类二">
-                <el-menu-item index="2-3">333</el-menu-item>
-              </el-menu-item-group>
-              <el-sub-menu index="2-4">
-                <template #title>444</template>
-                <el-menu-item index="2-4-1">111</el-menu-item>
-              </el-sub-menu>
-            </el-sub-menu>
+                <span>订单管理</span>
+              </el-menu-item>
+            </router-link>
             <el-sub-menu index="3">
               <template #title>
                 <el-icon>
@@ -70,43 +51,20 @@
                 <el-menu-item index="3-4-1">111</el-menu-item>
               </el-sub-menu>
             </el-sub-menu>
-            <el-sub-menu index="4">
-              <template #title>
-                <el-icon>
-                  <Notebook />
-                </el-icon>
-                <span>订单管理</span>
-              </template>
-              <el-menu-item-group title="分类一">
-                <el-menu-item index="4-1">111</el-menu-item>
-                <el-menu-item index="4-2">222</el-menu-item>
-              </el-menu-item-group>
-              <el-menu-item-group title="分类二">
-                <el-menu-item index="4-3">333</el-menu-item>
-              </el-menu-item-group>
-              <el-sub-menu index="4-4">
-                <template #title>444</template>
-                <el-menu-item index="4-4-1">111</el-menu-item>
-              </el-sub-menu>
-            </el-sub-menu>
+            <el-menu-item index="4">
+              <el-icon>
+                <setting />
+              </el-icon>
+              <span>数据统计</span>
+            </el-menu-item>
             <el-sub-menu index="5">
               <template #title>
                 <el-icon>
-                  <DataAnalysis />
+                  <Stamp />
                 </el-icon>
-                <span>数据统计</span>
+                <span>个人中心</span>
               </template>
-              <el-menu-item-group title="分类一">
-                <el-menu-item index="5-1">111</el-menu-item>
-                <el-menu-item index="5-2">222</el-menu-item>
-              </el-menu-item-group>
-              <el-menu-item-group title="分类二">
-                <el-menu-item index="5-3">333</el-menu-item>
-              </el-menu-item-group>
-              <el-sub-menu index="5-4">
-                <template #title>444</template>
-                <el-menu-item index="5-4-1">111</el-menu-item>
-              </el-sub-menu>
+              <el-menu-item index="4-1">111</el-menu-item>
             </el-sub-menu>
           </el-menu>
           <!-- 内容区域 -->
@@ -125,9 +83,10 @@ import {
   ShoppingBag,
   Notebook,
   DataAnalysis,
+  Stamp,
+  Flag,
 } from "@element-plus/icons-vue";
 import { computed, ref } from "vue";
-
 import {
   Document,
   Menu as IconMenu,
@@ -137,19 +96,43 @@ import {
 const handleOpen = (key: string, keyPath: string[]) => {};
 const handleClose = (key: string, keyPath: string[]) => {};
 
-// const search = ref("");
-// const filterTableData = computed(() =>
-//   tableData.filter(
-//     (data) =>
-//       data.name.toLowerCase().includes(search.value.toLowerCase())
-//   )
-// );
-// const handleEdit = (index, row) => {
-//   console.log(index, row);
-// };
-// const handleDelete = (index, row) => {
-//   console.log(index, row);
-// };
+const search = ref("");
+const filterTableData = computed(() =>
+  tableData.filter(
+    (data) =>
+      !search.value ||
+      data.name.toLowerCase().includes(search.value.toLowerCase())
+  )
+);
+const handleEdit = (index, row) => {};
+const handleDelete = (index, row) => {};
+
+const tableData = [
+  {
+    date: "2016-05-03",
+    name: "Tom",
+    address: "No. 189, Grove St, Los Angeles",
+    aaa: "https://n.sinaimg.cn/translate/200/w1080h720/20180909/IcUS-hivtsyk4014010.jpg",
+  },
+  {
+    date: "2016-05-02",
+    name: "John",
+    address: "No. 189, Grove St, Los Angeles",
+    aaa: "https://n.sinaimg.cn/translate/200/w1080h720/20180909/IcUS-hivtsyk4014010.jpg",
+  },
+  {
+    date: "2016-05-04",
+    name: "Morgan",
+    address: "No. 189, Grove St, Los Angeles",
+    aaa: "https://n.sinaimg.cn/translate/200/w1080h720/20180909/IcUS-hivtsyk4014010.jpg",
+  },
+  {
+    date: "2016-05-01",
+    name: "Jessy",
+    address: "No. 189, Grove St, Los Angeles",
+    aaa: "https://n.sinaimg.cn/translate/200/w1080h720/20180909/IcUS-hivtsyk4014010.jpg",
+  },
+];
 </script>
 <style>
 * {
@@ -165,6 +148,7 @@ const handleClose = (key: string, keyPath: string[]) => {};
   align-items: center;
   padding-left: 20px;
   box-sizing: border-box;
+  justify-content: space-between;
 }
 .title1 {
   margin-left: 30px;
@@ -193,5 +177,23 @@ const handleClose = (key: string, keyPath: string[]) => {};
 }
 .father2 {
   display: flex;
+}
+.el-table .el-table__cell {
+  z-index: initial;
+}
+.father3 {
+  display: flex;
+  align-content: center;
+}
+/* 小图标 */
+.icon {
+  margin-top: 5px;
+}
+.father > button {
+  width: 100px;
+  height: 50px;
+  background-color: red;
+  color: #fff;
+  margin-right: 30px;
 }
 </style>

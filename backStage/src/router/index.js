@@ -9,23 +9,20 @@ const routes = [
   {//首页
     path: '/',
     name: 'home',
-    component: () => import(/*webpackChunKName*/'../components/afterVue.vue')
+    component: () => import(/*webpackChunKName*/'../components/afterVue.vue'),
+    children: [
+      {//商品列表
+        path: '/listOfGoods',
+        name: 'goodlist',
+        component: () => import('../components/listOfGoods.vue')
+      },
+      {//用户列表
+        path: '/listOfUsers',
+        name: 'users',
+        component: () => import('../components/listOfUsers.vue')
+      },
+    ]
   },
-  {//商品列表
-    path: '/listOfGoods',
-    name: 'goodlist',
-    component: () => import('../components/listOfGoods.vue')
-  },
-  {//用户列表
-    path: '/listOfUsers',
-    name: 'users',
-    component: () => import('../components/listOfUsers.vue')
-  },
-  {
-    path: '/',
-    name: 'index',
-    component: () => import('../components/afterVue.vue')
-  }
 ]
 
 const router = createRouter({
