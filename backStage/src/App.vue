@@ -4,7 +4,7 @@
 
 <script>
 import { ref } from 'vue'
-import afterVue from './componments/afterVue.vue'
+import afterVue from './components/afterVue.vue'
 export default {
   components:{
     afterVue
