@@ -1,12 +1,21 @@
 <template>
-  <div></div>
+  <div>
+    <div>
+      <HearedVue></HearedVue>
+    </div>
+
+  </div>
 </template>
 
 <script>
-import { ref } from 'vue'
-
+import HearedVue from './index/HearedVue.vue'
 export default {
-  setup() {},
+  components: {
+    HearedVue,
+  },
+  setup() {
+    const a = 2
+  },
 }
 </script>
 
