@@ -2,7 +2,7 @@ import axios from "axios";
 import qs from "qs";
 
 axios.defaults.baseURL = ''  //正式
-// axios.defaults.baseURL = 'http://127.0.0.1:5173' //测试
+// axios.defaults.baseURL = 'http://localhost:3000' //测试
 
 //post请求头
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded;charset=UTF-8";
@@ -30,7 +30,7 @@ axios.interceptors.response.use(
   },
   error => {
 
-    console.log(JSON.stringify(error), '请求异常', {
+    console.log('axios', JSON.stringify(error), '请求异常', {
       confirmButtonText: '确定',
       callback: (action) => {
         console.log(action)
@@ -68,6 +68,7 @@ export default {
         params: data,
       })
         .then(res => {
+          console.log('成功', res)
           resolve(res.data)
         })
         .catch(err => {

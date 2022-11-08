@@ -1,11 +1,15 @@
 <template>
   <router-view></router-view>
+  <!-- <afterVue /> -->
 </template>
 
 <script>
 import { ref } from 'vue'
-
+import afterVue from './components/afterVue.vue'
 export default {
+  components: {
+    afterVue
+  },
   setup () { },
 }
 </script>

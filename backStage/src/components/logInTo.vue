@@ -32,6 +32,8 @@ import {
 } from "vue";
 import type { FormInstance, ElMessage } from "element-plus";
 import { Avatar, Lock } from "@element-plus/icons-vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
 const ruleFormRef = ref<FormInstance>();
 const { proxy } = getCurrentInstance();
 
@@ -47,6 +49,14 @@ const validatePass = (rule: any, value: any, callback: any) => {
     callback();
   }
 };
+
+// onMounted(() => {
+//   router.push({
+//     path: "/",
+//     query: { id: "1" },
+//   });
+// });
+
 // 密码规则
 const validatePass2 = (rule: any, value: any, callback: any) => {
   if (value === "") {
@@ -97,13 +107,16 @@ const failure = () => {
 // 登入请求
 const sendHttp = () => {
   proxy.$axios
-    .get("/a", ruleForm)
+    .get("http://localhost:3000/", ruleForm)
     .then((res) => {
       //请求成功
       let data = res.data;
-      console.log(res);
+      console.log("res", res);
       successful();
-      // sessionStorage
+      // sessionStorage.setItem('token',data.token)
+      // router.push({
+      //   path: "/",
+      // });
     })
     .catch((err) => {
       failure();
@@ -153,7 +166,6 @@ const checkAge = (rule: any, value: any, callback: any) => {
     padding: 0 25px 15px;
   }
   .logInToReset {
-    // transform: translate(67%);
     float: right;
   }
 }
