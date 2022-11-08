@@ -1,11 +1,14 @@
 <template>
-  <div></div>
+  <afterVue/>
 </template>
 
 <script>
 import { ref } from 'vue'
-
+import afterVue from './componments/afterVue.vue'
 export default {
+  components:{
+    afterVue
+  },
   setup() {},
 }
 </script>
