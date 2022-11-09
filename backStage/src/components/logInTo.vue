@@ -106,7 +106,7 @@ const failure = () => {
 
 // 登入请求
 const sendHttp = () => {
-  proxy.$axios
+  (proxy as any).$axios
     .get("/a", ruleForm)
     .then((res) => {
       //请求成功
