@@ -20,7 +20,7 @@
         </div>
         <!-- 侧边栏区域 -->
         <div class="father2">
-          <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
+          <el-menu default-active="2"  class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
             background-color="#363d3d" unique-opened>
             <router-link to="/listOfUsers">
               <el-menu-item index="1">
@@ -45,32 +45,28 @@
                 </el-icon>
                 <span>商品管理</span>
               </template>
-              <el-menu-item-group title="分类一">
-                <el-menu-item index="3-1">111</el-menu-item>
-                <el-menu-item index="3-2">222</el-menu-item>
-              </el-menu-item-group>
-              <el-menu-item-group title="分类二">
-                <el-menu-item index="3-3">333</el-menu-item>
-              </el-menu-item-group>
-              <el-sub-menu index="3-4">
-                <template #title>444</template>
-                <el-menu-item index="3-4-1">111</el-menu-item>
-              </el-sub-menu>
+                <router-link to="manage">
+                  <el-menu-item index="3-2">分类管理</el-menu-item>
+                </router-link>
             </el-sub-menu>
-            <el-menu-item index="4">
+            <router-link to="/data">
+              <el-menu-item index="4">
               <el-icon>
                 <setting />
               </el-icon>
               <span>数据统计</span>
             </el-menu-item>
-            <el-sub-menu index="5">
+            </router-link>
+              <el-sub-menu index="5">
               <template #title>
                 <el-icon>
                   <Stamp />
                 </el-icon>
                 <span>个人中心</span>
               </template>
-              <el-menu-item index="4-1">修改密码</el-menu-item>
+              <router-link to="pass">
+                <el-menu-item index="5-1">修改密码</el-menu-item>
+              </router-link>
             </el-sub-menu>
           </el-menu>
           <!-- 内容区域 -->
@@ -80,7 +76,8 @@
     </el-row>
   </div>
 </template>
-<script lang="ts" setup>
+<script  setup>
+import { ElMessage } from 'element-plus'
 // 引用小图标
 import {
   Management,
@@ -100,9 +97,11 @@ import {
   Setting,
 } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
+
+
 const router = useRouter();
-const handleOpen = (key: string, keyPath: string[]) => {};
-const handleClose = (key: string, keyPath: string[]) => {};
+const handleOpen = (key, keyPath) => {};
+const handleClose = (key, keyPath) => {};
 
 const search = ref("");
 const filterTableData = computed(() =>
