@@ -4,13 +4,19 @@
       <el-col :span="12">
         <div class="father">
           <div class="father3">
-            <el-icon size="50px" class="icon">
+            <el-icon size="36px" class="icon">
               <Management />
             </el-icon>
             <h1 class="mb-2 title1">
               施华洛世奇后台管理系统</h1>
           </div>
-          <button>退出</button>
+
+          <div class="box-father">
+            <div class="box">
+              <img src="../assets/image/werf645654454.webp" alt="">
+            </div>
+            <button>退出</button>
+          </div>
         </div>
         <!-- 侧边栏区域 -->
         <div class="father2">
@@ -64,7 +70,7 @@
                 </el-icon>
                 <span>个人中心</span>
               </template>
-              <el-menu-item index="4-1">111</el-menu-item>
+              <el-menu-item index="4-1">修改密码</el-menu-item>
             </el-sub-menu>
           </el-menu>
           <!-- 内容区域 -->
@@ -143,21 +149,22 @@ const tableData = [
   width: 100%;
   background-color: #363d3d;
   color: #fff;
-  height: 150px;
+  height: 113px;
   display: flex;
   align-items: center;
-  padding-left: 20px;
+  padding-left: 15px;
   box-sizing: border-box;
   justify-content: space-between;
 }
 .title1 {
-  margin-left: 30px;
+  margin-left: 23px;
+  font-size: 36px;
 }
 .tac {
   display: block;
 }
 .el-menu {
-  width: 300px;
+  min-width: 225px;
 }
 .el-col-12 {
   max-width: 100%;
@@ -170,7 +177,7 @@ const tableData = [
   color: #fff;
 }
 .el-menu--vertical {
-  height: 883px;
+  height: 728px;
 }
 .el-header {
   padding: 0;
@@ -187,13 +194,30 @@ const tableData = [
 }
 /* 小图标 */
 .icon {
-  margin-top: 5px;
+  margin-top: 4px;
 }
-.father > button {
-  width: 100px;
-  height: 50px;
+.father >div >button {
+  width: 75px;
+  height: 37px;
   background-color: red;
   color: #fff;
-  margin-right: 30px;
+  margin-right: 23px;
+  line-height: 17px;
+}
+.box{
+  width: 75px;
+  height: 75px;
+  background-color: red;
+  border-radius: 50%;
+  margin-right: 40px;
+}
+.box img{
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+}
+.box-father{
+  display: flex;
+  align-items: center;
 }
 </style>
