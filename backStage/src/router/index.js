@@ -10,6 +10,7 @@ const routes = [
     path: '/',
     name: 'home',
     component: () => import(/*webpackChunKName*/'../components/afterVue.vue'),
+    redirect: '/listOfGoods',
     children: [
       {//商品列表
         path: '/listOfGoods',
@@ -20,6 +21,24 @@ const routes = [
         path: '/listOfUsers',
         name: 'users',
         component: () => import('../components/listOfUsers.vue')
+      },
+      //商品管理
+      {
+        path: '/manage',
+        name: 'manage',
+        component: () => import('../components/manage/manageVue.vue')
+      },
+      //数据分析
+      {
+        path: '/data',
+        name: 'data',
+        component: () => import('../components/dataVue.vue')
+      },
+      //修改密码
+      {
+        path: '/pass',
+        name: 'pass',
+        component: () => import('../components/center/passVue.vue')
       },
     ]
   },

@@ -2,130 +2,161 @@
   <div>
     <h2>订单管理</h2>
     <div class="trade-father">
-      <el-input v-model="ccc.value1" class="w-50 m-2" placeholder="请输入你要查询的订单号" :prefix-icon="Search" />
-      <button @click="Inquire">查询</button>
-      <button @click="all">查看所有订单</button>
+      <el-input v-model="ccc.value1"
+                class="w-50 m-2"
+                placeholder="请输入你要查询的订单号"
+                :prefix-icon="Search" />
+      <button @click="ok('cx')">查询</button>
+      <button @click="ok('all')">查看所有订单</button>
+      <button @click="ok('ywc')">已完成</button>
+      <button @click="ok('wwc')">未完成</button>
     </div>
     <div class="content">
-      <el-table :data="ddd.tableData1[0]?ddd.tableData1:tableData" :border="parentBorder" style="width: 100%">
-        <el-table-column prop="date" label="日期" width="280" />
-        <el-table-column prop="name" label="商品名称" width="280" />
-        <el-table-column prop="price" label="价格" width="280" />
-        <el-table-column prop="aaa" label="订单编号" width="380" />
-        <el-table-column prop="state" label="状态" width="280" />
+      <el-table :data="(ddd.tableData1[0]?ddd.tableData1:tableData).slice((currentPage - 1) * pagesize, currentPage * pagesize)"
+                :border="parentBorder"
+                style="width: 100%">
+        <el-table-column prop="date"
+                         label="日期"
+                         width="280" />
+        <el-table-column prop="name"
+                         label="商品名称"
+                         width="280" />
+        <el-table-column prop="price"
+                         label="价格"
+                         width="280" />
+        <el-table-column prop="aaa"
+                         label="订单编号"
+                         width="380" />
+        <el-table-column prop="state"
+                         label="状态"
+                         width="280" />
       </el-table>
     </div>
+
   </div>
+
 </template>
 
 <script  setup>
-import { computed, ref, reactive } from "vue";
+import { computed, ref, reactive } from 'vue'
 import { Search } from '@element-plus/icons-vue'
+import { Plus } from '@element-plus/icons-vue'
+// import { UploadProps } from 'element-plus'
 const ccc = reactive({
-  value1: ''
+  value1: '',
+  // value2: ''
 })
 // 查询按钮点击
 let ddd = reactive({
-  tableData1: []
+  tableData1: [],
+  // tableData2: []
 })
-// 点击查询
-const Inquire = function () {
-  for (var i = 0; i < tableData.length; i++) {
-    if (tableData[i].aaa == ccc.value1) {
-      ddd.tableData1 = []
-      ddd.tableData1.unshift(tableData[i])
+// 四个点击事件
+const ok = function (e) {
+  ddd.tableData1 = computed(() => {
+    const ppp = {
+      ywc: (i) => i.state == '已完成',
+      wwc: (i) => i.state == '未完成',
+      cx: (i) => i.aaa == ccc.value1,
+      all: (i) => i,
     }
-  }
-}
-// 点击查询所有
-const all = function () {
-  ddd.tableData1 = []
+    return tableData.filter((i) => {
+      return ppp[e](i)
+    })
+  })
 }
 
 const parentBorder = ref(false)
 const childBorder = ref(false)
 
-
 const tableData = reactive([
   {
     id: 1,
-    date: "2016-05-03",
-    name: "Tom",
-    price: 199.00,
-    aaa: "42141252151252155125",
-    state: "未完成"
+    date: '2016-05-03',
+    name: 'Tom',
+    price: 199.0,
+    aaa: '42141252151252155125',
+    state: '未完成',
   },
   {
     id: 2,
-    date: "2016-05-02",
-    name: "John",
-    price: 189.00,
-    aaa: "12515125215215125215",
-    state: "未完成"
+    date: '2016-05-02',
+    name: 'John',
+    price: 189.0,
+    aaa: '12515125215215125215',
+    state: '未完成',
   },
   {
     id: 3,
-    date: "2016-05-04",
-    name: "Morgan",
-    price: 179.00,
-    aaa: "12521512512521521512",
-    state: "已完成"
+    date: '2016-05-04',
+    name: 'Morgan',
+    price: 179.0,
+    aaa: '12521512512521521512',
+    state: '已完成',
   },
   {
     id: 4,
-    date: "2016-05-01",
-    name: "Jessy",
-    price: 169.00,
-    aaa: "6556856856856886585",
-    state: "进行中"
+    date: '2016-05-01',
+    name: 'Jessy',
+    price: 169.0,
+    aaa: '6556856856856886585',
+    state: '进行中',
   },
   {
-    id: 4,
-    date: "2016-05-01",
-    name: "Jessy",
-    price: 169.00,
-    aaa: "345634634734734",
-    state: "未完成"
+    id: 5,
+    date: '2016-05-01',
+    name: 'Jessy',
+    price: 169.0,
+    aaa: '345634634734734',
+    state: '未完成',
   },
   {
-    id: 4,
-    date: "2016-05-01",
-    name: "Jessy",
-    price: 169.00,
-    aaa: "870780567856743634",
-    state: "已完成"
+    id: 6,
+    date: '2016-05-01',
+    name: 'Jessy',
+    price: 169.0,
+    aaa: '870780567856743634',
+    state: '已完成',
   },
   {
-    id: 4,
-    date: "2016-05-01",
-    name: "Jessy",
-    price: 169.00,
-    aaa: "97807807078",
-    state: "未完成"
+    id: 7,
+    date: '2016-05-01',
+    name: 'Jessy',
+    price: 169.0,
+    aaa: '97807807078',
+    state: '未完成',
   },
   {
-    id: 4,
-    date: "2016-05-01",
-    name: "Jessy",
-    price: 169.00,
-    aaa: "234234242342432",
-    state: "已完成"
+    id: 8,
+    date: '2016-05-01',
+    name: 'Jessy',
+    price: 169.0,
+    aaa: '234234242342432',
+    state: '已完成',
   },
   {
-    id: 4,
-    date: "2016-05-01",
-    name: "Jessy",
-    price: 169.00,
-    aaa: "457455474575474574",
-    state: "未完成"
+    id: 9,
+    date: '2016-05-01',
+    name: 'Jessy',
+    price: 169.0,
+    aaa: '457455474575474574',
+    state: '未完成',
   },
   {
-    id: 4,
-    date: "2016-05-01",
-    name: "Jessy",
-    price: 169.00,
-    aaa: "768679867967967867",
-    state: "已完成"
+    id: 10,
+    date: '2016-05-01',
+    name: 'Jessy',
+    price: 169.0,
+    aaa: '768679867967967867',
+    state: '已完成',
+  },
+  {
+    id: 11,
+    date: '2016-05-01',
+    name: 'Jessy',
+    price: 169.0,
+    aaa: '768679867967967867',
+    state: '已完成',
   },
 ])
 </script>
@@ -150,6 +181,16 @@ const tableData = reactive([
   text-align: center;
   line-height: 7.5px;
   margin-left: 15px;
+}
+.trade-father button:nth-child(4) {
+  background-color: red;
+  color: #fff;
+  margin-left: 50%;
+}
+.trade-father button:nth-child(5) {
+  background-color: red;
+  color: #fff;
+  margin-left: 1%;
 }
 .trade-father button:nth-child(3) {
   width: 150px;

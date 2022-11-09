@@ -114,7 +114,7 @@
 <script lang="ts" setup>
 import { computed, reactive, Ref, ref, getCurrentInstance } from "vue";
 //信息提示
-import type {
+import  {
   FormInstance,
   ElMessage,
   UploadProps,
