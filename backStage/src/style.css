@@ -1,18 +1,6 @@
-:root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+* {
+  box-sizing: border-box;
+  user-select: none;
 }
 
 a {
@@ -33,13 +21,13 @@ a:hover {
   color: #535bf2;
 }
 
-body {
+/* body {
   margin: 0;
   display: flex;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-}
+} */
 
 h1 {
   font-size: 3.2em;
@@ -69,11 +57,16 @@ button:focus-visible {
   padding: 2em;
 }
 
+html,
+body,
 #app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+body {
+  min-width: 1100px;
 }
 
 @media (prefers-color-scheme: light) {
@@ -87,4 +80,112 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+html,
+body,
+div,
+ul,
+ol,
+dl,
+li,
+dt,
+dd,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  padding: 0;
+  margin: 0;
+}
+
+.header-nav > .current {
+  background-color: #252947;
+  color: #e2e4ed;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a,
+ins,
+del {
+  text-decoration: none;
+}
+
+i,
+em {
+  font-style: normal;
+}
+
+header,
+aside,
+section,
+article,
+footer {
+  padding: 0;
+  margin: 0;
+  /* 针对浏览器的兼容性问题 */
+  display: block;
+}
+
+img {
+  vertical-align: bottom;
+  border: 0;
+}
+
+.clearfixed::after {
+  content: '';
+  display: block;
+  clear: both;
+  height: 0;
+  visibility: hidden;
+}
+
+.clearfixed::before {
+  content: '';
+  display: block;
+  clear: both;
+  height: 0;
+  visibility: hidden;
+}
+/* 正对IE浏览器的兼容性问题，清除浮动可以单独再设一个 */
+
+.clearfixed {
+  zoom: 1;
+  /* 兼容IE6 */
+}
+
+.inner {
+  width: 1000px;
+  margin: 0 auto;
+}
+/* 根目录,相当于html */
+
+:root {
+  font-size: 14px/1.2 '微软雅黑' 'Hiragino Sans GB', 'Microsoft YaHei', '宋体',
+    Arial, Tahoma, Helvetica, Geneva, sans-serif;
+  color: #444866;
+  max-width: 200%;
+  min-width: 1000px;
+  -webkit-text-size-adjust: none;
+}
+
+div.shadow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
 }
