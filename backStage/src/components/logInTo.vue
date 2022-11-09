@@ -107,16 +107,16 @@ const failure = () => {
 // 登入请求
 const sendHttp = () => {
   proxy.$axios
-    .get("http://localhost:3000/", ruleForm)
+    .get("/a", ruleForm)
     .then((res) => {
       //请求成功
       let data = res.data;
       console.log("res", res);
       successful();
       // sessionStorage.setItem('token',data.token)
-      // router.push({
-      //   path: "/",
-      // });
+      router.push({
+        path: "/",
+      });
     })
     .catch((err) => {
       failure();

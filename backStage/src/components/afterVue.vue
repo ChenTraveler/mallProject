@@ -10,7 +10,7 @@
             <h1 class="mb-2 title1">
               施华洛世奇后台管理系统</h1>
           </div>
-          <button>退出</button>
+          <button @click="exit">退出</button>
         </div>
         <!-- 侧边栏区域 -->
         <div class="father2">
@@ -64,7 +64,7 @@
                 </el-icon>
                 <span>个人中心</span>
               </template>
-              <el-menu-item index="4-1">111</el-menu-item>
+              <el-menu-item index="4-1">修改密码</el-menu-item>
             </el-sub-menu>
           </el-menu>
           <!-- 内容区域 -->
@@ -93,6 +93,8 @@ import {
   Location,
   Setting,
 } from "@element-plus/icons-vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
 const handleOpen = (key: string, keyPath: string[]) => {};
 const handleClose = (key: string, keyPath: string[]) => {};
 
@@ -106,6 +108,13 @@ const filterTableData = computed(() =>
 );
 const handleEdit = (index, row) => {};
 const handleDelete = (index, row) => {};
+
+const exit = () => {
+  localStorage.removeItem("token");
+  router.push({
+    path: "/login",
+  });
+};
 
 const tableData = [
   {
