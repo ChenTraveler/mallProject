@@ -17,4 +17,7 @@ export default {
 [v-cloak] {
   display: none !important;
 }
+*{
+  background-color: #f7faf9;
+}
 </style>

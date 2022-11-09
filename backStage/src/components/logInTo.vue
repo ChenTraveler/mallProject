@@ -122,7 +122,6 @@ const sendHttp = () => {
       failure();
     });
 };
-console.log(proxy.$axios);
 
 // 信息提示
 const checkAge = (rule: any, value: any, callback: any) => {
