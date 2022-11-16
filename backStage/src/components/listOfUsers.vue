@@ -82,7 +82,7 @@
               </div>
               <el-row justify="center" style="margin-top:17px;margin-bottom:20px">
                 <el-upload ref="upload" class="upload-demo" :on-success="handleAvatarSuccess"
-                  action="http://192.168.3.22:3000/upload" :on-exceed="handleExceed" :show-file-list="false"
+                  action="http://localhost:80/upload1" :on-exceed="handleExceed" :show-file-list="false"
                   :before-upload="handleBefore">
                   <el-button type="primary">
                     上传<el-icon class="el-icon--right">
@@ -172,7 +172,7 @@ let tableData: any = reactive({ arr: [] });
         name: item.username,
         iphone: item.phone,
         state: item.exist == "false" ? "已注销" : "正在使用",
-        pic: "http://192.168.3.22:3000/upload" + item.headphoto,
+        pic: "http://192.168.3.20/" + item.headphoto,
       };
       if (obj.name != uname) {
         tableData.arr.push(obj);
@@ -220,7 +220,7 @@ const handleAvatarSuccess = (res, file) => {
   console.log(res, file);
   console.log(URL.createObjectURL(file.raw));
   // form.pic = URL.createObjectURL(file.raw);
-  form.pic2 = "http://192.168.3.22:3000/upload" + res.msg;
+  form.pic2 = "http://192.168.3.20/" + res.msg;
 };
 
 interface User {
@@ -500,7 +500,7 @@ const addUser = () => {
     return ElMessage.error("当前用户不可添加，请联系超级管理员");
   title.value = "用户添加";
   useState.value = 1;
-  form.pic2 = "http://192.168.3.22:3000/uploadwerf645654454.webp";
+  form.pic2 = "http://192.168.3.20/werf645654454.webp";
   form.name = "";
   form.state = false;
   form.iphone = undefined;
