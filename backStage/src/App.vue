@@ -3,13 +3,16 @@
 </template>
 
 <script>
-import { ref } from 'vue'
-import afterVue from './components/afterVue.vue'
+import * as echarts from 'echarts'
+import { provide } from 'vue'
+
 export default {
-  components: {
-    afterVue
+  name: 'App',
+  setup () {
+    provide('ec', echarts)//provide
   },
-  setup () { },
+  components: {
+  }
 }
 </script>
 
@@ -17,7 +20,7 @@ export default {
 [v-cloak] {
   display: none !important;
 }
-*{
+* {
   background-color: #f7faf9;
 }
 </style>

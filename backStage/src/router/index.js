@@ -15,31 +15,42 @@ const routes = [
       {//商品列表
         path: '/listOfGoods',
         name: 'goodlist',
-        component: () => import('../components/listOfGoods.vue')
+        component: () => import('../components/listOfGoods.vue'),
+        meta: { isAuth: true }
       },
       {//用户列表
         path: '/listOfUsers',
         name: 'users',
-        component: () => import('../components/listOfUsers.vue')
+        component: () => import('../components/listOfUsers.vue'),
+        meta: { isAuth: true }
       },
       //商品管理
       {
         path: '/manage',
         name: 'manage',
-        component: () => import('../components/manage/manageVue.vue')
+        component: () => import('../components/manage/manageVue.vue'),
+        meta: { isAuth: true }
       },
       //数据分析
       {
         path: '/data',
         name: 'data',
-        component: () => import('../components/dataVue.vue')
+        component: () => import('../components/dataVue.vue'),
+        meta: { isAuth: true }
       },
       //修改密码
       {
         path: '/pass',
         name: 'pass',
-        component: () => import('../components/center/passVue.vue')
+        component: () => import('../components/center/passVue.vue'),
+        meta: { isAuth: true }
       },
+      {
+        path: '/userInfo',
+        name: 'userInfo',
+        component: () => import('../components/center/BasicInformation.vue'),
+        meta: { isAuth: true }
+      }
     ]
   },
 ]
@@ -50,13 +61,19 @@ const router = createRouter({
   routes, // `routes: routes` 的缩写
 })
 
-
 // 路由守卫
 router.beforeEach((to, from, next) => {
-  localStorage.setItem('token', 'sdfdsfrefas4123')
-  const { token } = localStorage;
-  console.log(token, localStorage)
-  token || to.name === "login" ? next() : next({ name: "login" });
+  if (to.meta.isAuth) {
+    if (localStorage.getItem("token")) {
+      next()
+    } else {
+      next({ name: 'login' })
+    }
+
+  } else {
+    console.log(2)
+    next()
+  }
 });
 
 export default router

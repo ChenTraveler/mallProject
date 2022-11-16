@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-cloak>
     <el-row class="tac">
       <el-col :span="12">
         <div class="father">
@@ -13,17 +13,17 @@
 
           <div class="box-father">
             <div class="box">
-              <img src="../assets/image/werf645654454.webp" alt="">
+              <img :src="pic.pic2" alt="">
             </div>
-            <button>退出</button>
+            <button @click="exit">退出</button>
           </div>
         </div>
         <!-- 侧边栏区域 -->
         <div class="father2">
-          <el-menu default-active="2"  class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
-            background-color="#363d3d" unique-opened>
+          <el-menu class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" background-color="#363d3d"
+            unique-opened @select='select' :default-active="active">
             <router-link to="/listOfUsers">
-              <el-menu-item index="1">
+              <el-menu-item index="1" :body="body">
                 <el-icon>
                   <User />
                 </el-icon>
@@ -45,27 +45,32 @@
                 </el-icon>
                 <span>商品管理</span>
               </template>
-                <router-link to="manage">
-                  <el-menu-item index="3-2">分类管理</el-menu-item>
-                </router-link>
+              <router-link to="manage">
+                <el-menu-item index="3-2">分类管理</el-menu-item>
+              </router-link>
             </el-sub-menu>
             <router-link to="/data">
               <el-menu-item index="4">
-              <el-icon>
-                <setting />
-              </el-icon>
-              <span>数据统计</span>
-            </el-menu-item>
+                <el-icon>
+                  <setting />
+                </el-icon>
+                <span>数据统计</span>
+              </el-menu-item>
             </router-link>
-              <el-sub-menu index="5">
+            <el-sub-menu index="5">
               <template #title>
                 <el-icon>
                   <Stamp />
                 </el-icon>
                 <span>个人中心</span>
               </template>
-              <router-link to="pass">
-                <el-menu-item index="5-1">修改密码</el-menu-item>
+              <!-- <router-link to="/userInfo">
+                <el-menu-item index="5-1">个人基本信息</el-menu-item>
+              </router-link> -->
+              <router-link :to="{ 
+              name:'pass',
+              }">
+                <el-menu-item index="5-2">修改密码</el-menu-item>
               </router-link>
             </el-sub-menu>
           </el-menu>
@@ -77,7 +82,9 @@
   </div>
 </template>
 <script  setup>
+import { reactive } from 'vue'
 import { ElMessage } from 'element-plus'
+
 // 引用小图标
 import {
   Management,
@@ -89,19 +96,28 @@ import {
   Stamp,
   Flag,
 } from "@element-plus/icons-vue";
-import { computed, ref } from "vue";
+import { computed, ref, provide, getCurrentInstance } from "vue";
 import {
   Document,
   Menu as IconMenu,
   Location,
   Setting,
 } from "@element-plus/icons-vue";
+// 解密token文件
+import jwt_decode from "jwt-decode";
 import { useRouter } from "vue-router";
+const { proxy } = getCurrentInstance();
+let { uname } = jwt_decode(localStorage.getItem("token"));
 
-
+// 菜单激活
+const active = localStorage.getItem('active')
+const select = (v) => {
+  console.log(v)
+  localStorage.setItem('active', v)
+}
 const router = useRouter();
-const handleOpen = (key, keyPath) => {};
-const handleClose = (key, keyPath) => {};
+const handleOpen = (key, keyPath) => { };
+const handleClose = (key, keyPath) => { };
 
 const search = ref("");
 const filterTableData = computed(() =>
@@ -111,15 +127,32 @@ const filterTableData = computed(() =>
       data.name.toLowerCase().includes(search.value.toLowerCase())
   )
 );
-const handleEdit = (index, row) => {};
-const handleDelete = (index, row) => {};
+const handleEdit = (index, row) => { };
+const handleDelete = (index, row) => { };
 
+// 退出登入按钮
 const exit = () => {
   localStorage.removeItem("token");
   router.push({
     path: "/login",
   });
 };
+
+
+const pic = ref({ pic2: '' })
+
+const fn = 2
+
+proxy.$axios
+  .post("/api/udata", { other: 'where users.username="' + uname + '"' })
+  .then((data) => {
+    console.log(data.data)
+    pic.value.pic2 = 'http://192.168.119.1/' + data.data[0].headphoto
+    console.log(pic)
+  })
+  .catch((err) => {
+
+  });
 
 const tableData = [
   {
@@ -152,6 +185,9 @@ const tableData = [
 * {
   margin: 0;
   padding: 0;
+}
+[v-cloak] {
+  display: none;
 }
 .father {
   width: 100%;

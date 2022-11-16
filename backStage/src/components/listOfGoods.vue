@@ -2,34 +2,21 @@
   <div>
     <h2>订单管理</h2>
     <div class="trade-father">
-      <el-input v-model="ccc.value1"
-                class="w-50 m-2"
-                placeholder="请输入你要查询的订单号"
-                :prefix-icon="Search" />
+      <el-input v-model="ccc.value1" class="w-50 m-2" placeholder="请输入你要查询的订单号" :prefix-icon="Search" />
       <button @click="ok('cx')">查询</button>
       <button @click="ok('all')">查看所有订单</button>
       <button @click="ok('ywc')">已完成</button>
       <button @click="ok('wwc')">未完成</button>
     </div>
     <div class="content">
-      <el-table :data="(ddd.tableData1[0]?ddd.tableData1:tableData).slice((currentPage - 1) * pagesize, currentPage * pagesize)"
-                :border="parentBorder"
-                style="width: 100%">
-        <el-table-column prop="date"
-                         label="日期"
-                         width="280" />
-        <el-table-column prop="name"
-                         label="商品名称"
-                         width="280" />
-        <el-table-column prop="price"
-                         label="价格"
-                         width="280" />
-        <el-table-column prop="aaa"
-                         label="订单编号"
-                         width="380" />
-        <el-table-column prop="state"
-                         label="状态"
-                         width="280" />
+      <el-table
+        :data="(ddd.tableData1[0]?ddd.tableData1:tableData).slice((currentPage - 1) * pagesize, currentPage * pagesize)"
+        :border="parentBorder" style="width: 100%">
+        <el-table-column prop="date" label="日期" width="280" />
+        <el-table-column prop="name" label="商品名称" width="280" />
+        <el-table-column prop="price" label="价格" width="280" />
+        <el-table-column prop="aaa" label="订单编号" width="380" />
+        <el-table-column prop="state" label="状态" width="280" />
       </el-table>
     </div>
 
