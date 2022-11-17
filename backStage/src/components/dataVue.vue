@@ -47,7 +47,7 @@ for (let k in lbData) {
   max = max > Math.max(...lbData[k].data) ? max : Math.max(...lbData[k].data);
 }
 
-if (max <= 300) max = 300;
+if (max <= 200) max = 200;
 
 // 数据结构
 // const { other, Necklace, SRoleOfing, earrings } = statistical.category;

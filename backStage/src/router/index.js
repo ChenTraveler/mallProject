@@ -10,9 +10,9 @@ const routes = [
     path: '/',
     name: 'home',
     component: () => import(/*webpackChunKName*/'../components/afterVue.vue'),
-    redirect: '/listOfGoods',
+    redirect: '/manage',
     children: [
-      {//商品列表
+      {//商品管理
         path: '/listOfGoods',
         name: 'goodlist',
         component: () => import('../components/listOfGoods.vue'),
@@ -24,12 +24,18 @@ const routes = [
         component: () => import('../components/listOfUsers.vue'),
         meta: { isAuth: true }
       },
-      //商品管理
+      //分类管理
       {
         path: '/manage',
         name: 'manage',
         component: () => import('../components/manage/manageVue.vue'),
         meta: { isAuth: true }
+      },
+      // 商品列表
+      {
+        path: '/list',
+        name: 'list',
+        component: () => import('../components/manage/listVue.vue')
       },
       //数据分析
       {

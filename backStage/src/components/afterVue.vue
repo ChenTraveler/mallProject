@@ -1,5 +1,5 @@
 <template>
-  <div v-cloak>
+  <div class="BigFather">
     <el-row class="tac">
       <el-col :span="12">
         <div class="father">
@@ -75,7 +75,9 @@
             </el-sub-menu>
           </el-menu>
           <!-- 内容区域 -->
-          <router-view></router-view>
+          <router-view>
+          </router-view>
+
         </div>
       </el-col>
     </el-row>
@@ -221,7 +223,8 @@ const tableData = [
   color: #fff;
 }
 .el-menu--vertical {
-  height: 856px;
+  height: 848px;
+  /* height: 100%; */
 }
 .el-header {
   padding: 0;
