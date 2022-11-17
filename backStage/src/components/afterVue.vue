@@ -147,7 +147,7 @@ proxy.$axios
   .post("/api/udata", { other: 'where users.username="' + uname + '"' })
   .then((data) => {
     console.log(data.data)
-    pic.value.pic2 = 'http://192.168.119.1/' + data.data[0].headphoto
+    pic.value.pic2 = 'http://192.168.3.21:3000/' + data.data[0].headphoto
     console.log(pic)
   })
   .catch((err) => {
@@ -251,7 +251,6 @@ const tableData = [
 .box {
   width: 75px;
   height: 75px;
-  background-color: red;
   border-radius: 50%;
   margin-right: 40px;
 }

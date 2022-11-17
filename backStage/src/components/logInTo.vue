@@ -2,7 +2,7 @@
   <div class="login_con">
     <div class="login_box">
       <div class="login_title">施华洛世奇后台管理系统</div>
-      <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules" label-width="0px" class="demo-ruleForm">
+      <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="0px" class="demo-ruleForm">
         <!-- 用户名 -->
         <el-form-item prop="uname">
           <el-input v-model="ruleForm.uname" :prefix-icon="Avatar" type="text" autocomplete="off" />
@@ -34,7 +34,6 @@ const { proxy } = getCurrentInstance();
 
 // 用户名规则
 const validatePass = (rule: any, value: any, callback: any) => {
-  console.log(value);
   if (value === "") {
     callback(new Error("请输入用户名！"));
   } else {
@@ -43,11 +42,9 @@ const validatePass = (rule: any, value: any, callback: any) => {
       ruleFormRef.value.validateField("checkPass", () => null);
     }
     const regPwd = /^[a-z0-9A-Z]{3,10}$/;
-    console.log(regPwd.test(value));
     if (!regPwd.test(value)) {
       callback(new Error("请以字母数字组合！，字符串长度在10以内"));
     } else {
-      console.log(111);
       callback();
     }
   }
@@ -62,16 +59,13 @@ const toView = () => {
 
 // 密码规则
 const validatePass2 = (rule: any, value: any, callback: any) => {
-  console.log(value);
   if (value === "") {
     callback(new Error("请输入密码！"));
   } else {
     const regPwd = /^[a-z0-9A-Z]{6,18}$/;
-    console.log(regPwd.test(value));
     if (!regPwd.test(value)) {
       callback(new Error("密码不符合规则！请输入6-18位密码！"));
     } else {
-      console.log(111);
       callback();
     }
   }
@@ -125,9 +119,7 @@ const sendHttp = () => {
     .post("/api/login", ruleForm)
     .then((res) => {
       //请求成功
-      console.log(res);
       if (res.status == 200) {
-        console.log("res", res);
         // 登入成功调用成功信息函数
         successful();
         localStorage.setItem("token", res.data);
@@ -187,6 +179,7 @@ const checkAge = (rule: any, value: any, callback: any) => {
     background-color: #fff;
     border-radius: 15px;
     padding: 0 25px 15px;
+    box-shadow: 0 0 15px #666;
   }
   .logInToReset {
     float: right;

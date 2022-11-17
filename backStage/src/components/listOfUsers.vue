@@ -71,7 +71,7 @@
     <!-- Dialog 对话框 -->
     <el-dialog v-model="dialogVisible" :title="title" width="45%" draggable style="min-width:400px">
       <template #footer>
-        <el-form :model="form" label-width="70px" ref="ruleFormRef" status-icon :rules="rules">
+        <el-form :model="form" label-width="70px" ref="ruleFormRef" :rules="rules">
           <el-row justify="center">
             <!-- 用户头像上传列 -->
             <el-col v-if="useState==0">
@@ -81,9 +81,8 @@
                 </el-avatar>
               </div>
               <el-row justify="center" style="margin-top:17px;margin-bottom:20px">
-                <el-upload ref="upload" class="upload-demo" :on-success="handleAvatarSuccess"
-                  action="http://localhost:80/upload1" :on-exceed="handleExceed" :show-file-list="false"
-                  :before-upload="handleBefore">
+                <el-upload ref="upload" class="upload-demo" :action="imgUrl+'api/upload'" name="files"
+                  :show-file-list="false" :before-upload="handleBefore" :on-success="handleAvatarSuccess">
                   <el-button type="primary">
                     上传<el-icon class="el-icon--right">
                       <Upload />
@@ -103,7 +102,7 @@
                 <el-input v-model="form.iphone" />
               </el-form-item>
               <!-- 密码编辑 -->
-              <el-form-item label="密码：" v-if="useState==1" prop="pass">
+              <el-form-item label="密码：" v-if="useState==1||uname=='admin'" prop="pass">
                 <el-input class="ico" style="position:relative" :type="view?'text':'password'"
                   :suffix-icon="accordingTo?0:view?'View':'Hide'" v-model="form.pass">
                 </el-input>
@@ -132,16 +131,7 @@
 <script lang="ts" setup>
 import { computed, reactive, Ref, ref, getCurrentInstance } from "vue";
 //信息提示
-import type {
-  FormInstance,
-  // ElMessage,
-  UploadProps,
-  UploadUserFile,
-  UploadInstance,
-  UploadRawFile,
-  genFileId,
-  ElMessage,
-} from "element-plus";
+import type { FormInstance, ElMessage } from "element-plus";
 import { Edit } from "@element-plus/icons-vue"; //图标
 import { nanoid } from "nanoid"; //id随机生成文件
 import * as dayjs from "dayjs"; //引入格式化时间插件
@@ -151,7 +141,7 @@ import { useRouter } from "vue-router";
 import jwt_decode from "jwt-decode";
 let { uname }: any = jwt_decode(localStorage.getItem("token"));
 const router = useRouter();
-
+const imgUrl = "http://192.168.3.21:3000/";
 const props = defineProps(["body"]);
 
 const { proxy } = getCurrentInstance();
@@ -162,7 +152,6 @@ let tableData: any = reactive({ arr: [] });
 (proxy as any).$axios
   .post("/api/udata", {})
   .then((data) => {
-    console.log(data.data);
     fy.sss = data.data.length;
     data.data.forEach((item) => {
       if (item.headphoto == " ") item.headphoto = "default.webp";
@@ -172,7 +161,7 @@ let tableData: any = reactive({ arr: [] });
         name: item.username,
         iphone: item.phone,
         state: item.exist == "false" ? "已注销" : "正在使用",
-        pic: "http://192.168.3.20/" + item.headphoto,
+        pic: imgUrl + item.headphoto,
       };
       if (obj.name != uname) {
         tableData.arr.push(obj);
@@ -180,7 +169,6 @@ let tableData: any = reactive({ arr: [] });
         tableData.arr.unshift(obj);
       }
     });
-    console.log(tableData);
   })
   .catch((err) => {
     // url重定向
@@ -191,10 +179,8 @@ let tableData: any = reactive({ arr: [] });
 
 let useData = {}; //用来保存编辑行对象
 
-// const upload = ref<UploadInstance>();
 // 点击头像上传时
 const handleBefore = (file) => {
-  console.log(file);
   // form.pic = rawFile.name;
   const url = window.URL || window.webkitURL;
   const img = new Image(); // 手动创建一个Image对象
@@ -202,25 +188,21 @@ const handleBefore = (file) => {
 
   return new Promise((resolve, reject) => {
     const isLt2M = file.size / 1024 / 1024 < 200;
-    if (file.type != "image/jpeg" && file.type != "image/png") {
-      ElMessage.error("上传格式不对！");
-      reject();
-    } else {
-      form.pic2 = img.src;
-      ElMessage({ message: "上传成功！", type: "success" });
-      resolve(file);
-    }
+    form.pic2 = img.src;
+    resolve(file);
     // 判断数据库里有没有，是否重新上传*****************
   });
 };
 
 // 图片上传成功后
 const handleAvatarSuccess = (res, file) => {
-  console.log("图片成功上传");
-  console.log(res, file);
-  console.log(URL.createObjectURL(file.raw));
+  if (res.status) {
+    ElMessage({ message: "上传成功！", type: "success" });
+    form.pic2 = imgUrl + res.msg;
+  } else {
+    ElMessage.error(res.msg);
+  }
   // form.pic = URL.createObjectURL(file.raw);
-  form.pic2 = "http://192.168.3.20/" + res.msg;
 };
 
 interface User {
@@ -275,7 +257,6 @@ const handleEdit = (index: number, row) => {
   title.value = "用户编辑";
   useState.value = 0;
   useData = row;
-  console.log(index, row);
   dialogVisible.value = true;
   form.name = row.name;
   form.pic2 = row.pic;
@@ -307,7 +288,6 @@ const form: Editor = reactive({
 
 const ruleFormRef = ref<FormInstance>();
 const validateUser = (rule: any, value: any, callback: any) => {
-  console.log(value);
   if (value === "") {
     callback(new Error("请输入用户名！"));
   } else {
@@ -325,7 +305,6 @@ const validateUser = (rule: any, value: any, callback: any) => {
 };
 
 const validateIphone = (rule: any, value: any, callback: any) => {
-  console.log(value);
   if (value === undefined) {
     callback(new Error("请输入手机号！"));
   } else {
@@ -335,7 +314,6 @@ const validateIphone = (rule: any, value: any, callback: any) => {
     }
     let regular =
       /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
-    console.log(regular.test(value));
     if (!regular.test(value)) {
       callback(new Error("手机号格式不正确！"));
     } else {
@@ -345,7 +323,6 @@ const validateIphone = (rule: any, value: any, callback: any) => {
 };
 
 const validatePass = (rule: any, value: any, callback: any) => {
-  console.log(value);
   if (value === "") {
     accordingTo.value = !accordingTo.value;
     callback(new Error("请输入密码！"));
@@ -369,18 +346,6 @@ const rules = reactive({
   pass: [{ validator: validatePass, trigger: "blur" }],
 });
 
-const submitForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  formEl.validate((valid) => {
-    if (valid) {
-      console.log("submit!");
-    } else {
-      console.log("error submit!");
-      return false;
-    }
-  });
-};
-
 // 提交编辑后的数据
 const confirm = (id, formEl: FormInstance | undefined) => {
   if (!formEl) return;
@@ -392,7 +357,6 @@ const confirm = (id, formEl: FormInstance | undefined) => {
       return false;
     }
   });
-  console.log("执行");
   c();
   if (useState.value == 1) {
     if (!form.name || !form.pass || !form.iphone) {
@@ -417,11 +381,8 @@ const confirm = (id, formEl: FormInstance | undefined) => {
       headphoto: form.pic2,
     };
     //数据存入请求
-    console.log(obj2);
     (proxy as any).$axios.post("/api/rej", obj2).then((data) => {
-      console.log(data);
       if (data.status == 200) {
-        console.log("axios", data);
         dialogVisible.value = false;
         obj.state = obj.state != false ? "正在使用" : "已注销";
         tableData.arr.splice(1, 0, obj);
@@ -432,7 +393,6 @@ const confirm = (id, formEl: FormInstance | undefined) => {
       }
     });
   } else {
-    console.log(11111);
     let pic = form.pic2.split("/");
     //修改用户数据
     let obj = {
@@ -453,7 +413,14 @@ const confirm = (id, formEl: FormInstance | undefined) => {
         "'",
       uname: form.name,
     };
-    console.log(obj);
+    if (form.pass != undefined) {
+      (proxy as any).$axios
+        .post("/api/upduser", {
+          setStr: `password=${form.pass}`,
+          uname: form.name,
+        })
+        .then((data) => {});
+    }
     (proxy as any).$axios.post("/api/upduser", obj).then((data) => {
       form.pic = form.pic2;
       if (data.status == 200) {
@@ -462,7 +429,6 @@ const confirm = (id, formEl: FormInstance | undefined) => {
           if (k == "state")
             useData[k] = useData[k] != false ? "正在使用" : "已注销";
         }
-        console.log(useData, form);
         ElMessage.success("修改成功");
       } else {
         ElMessage.error("修改失败");
@@ -500,7 +466,7 @@ const addUser = () => {
     return ElMessage.error("当前用户不可添加，请联系超级管理员");
   title.value = "用户添加";
   useState.value = 1;
-  form.pic2 = "http://192.168.3.20/werf645654454.webp";
+  form.pic2 = "http://192.168.3.21:3000/images/werf645654454.webp";
   form.name = "";
   form.state = false;
   form.iphone = undefined;
@@ -511,8 +477,6 @@ const addUser = () => {
 
 // 删除用户
 const handleDelete = (index1: number, row) => {
-  console.log(index1, row);
-
   if (row.state == "已注销") return 0;
   if (row.name == uname) return ElMessage.error("当前用户仅可编辑！");
   row.state = "已注销";
@@ -524,21 +488,17 @@ const handleDelete = (index1: number, row) => {
         setStr: "exist='false'",
         uname: row.name,
       };
-      console.log(obj);
       (proxy as any).$axios.post("/api/upduser", obj).then((data) => {
         if (data.status == 200) {
           dialogVisible.value = false;
           ElMessage.success("注销成功！");
         }
-
-        console.log(data);
       });
     }
   });
 };
 // 状态开关
 const change = (row) => {
-  console.log(row);
   if (row.name == uname) {
     row.state = true;
     return ElMessage.error("操作失败，当前用户仅可编辑！");
@@ -548,10 +508,8 @@ const change = (row) => {
     setStr: "exist=" + "'" + row.state + "'",
     uname: row.name,
   };
-  console.log(obj);
   (proxy as any).$axios.post("/api/upduser", obj).then((data) => {
     dialogVisible.value = false;
-    console.log(data);
   });
 };
 

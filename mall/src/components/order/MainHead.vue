@@ -6,14 +6,14 @@
       </li>
     </ul>
     <div class="search">
-      <input type="text" placeholder="输入订单号或者商品名称进行搜索">
-      <span>
+      <input type="text" v-model="searchText" placeholder="输入订单号或者商品名称进行搜索">
+      <span @click="search">
         订单搜索
       </span>
       <!-- 全选和删除已选 -->
       <div class="handleQuan">
         <div class="checkAll">
-          <input type="checkbox" :checked="allChecked" @change="allSelect">
+          <input type="checkbox" v-model="allChecked" @change="allSelect">
           <p>
             全选
           </p>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import bus from '../../bus.js'
 export default {
   components: {
@@ -48,29 +48,39 @@ export default {
       isnav: 0,
       nav (index) {
         list.isnav = index
-        bus.emit('sizer', index)
+        bus.emit('sizer', list.data[index].nums)
       },
     })
 
     // 全选状态
-    let allChecked = reactive(false)
+    let allChecked = ref(false)
     // 全选事件
     const allSelect = () => {
-      allChecked = !allChecked
-      console.log(allChecked)
-      bus.emit('allSelect', allChecked)
+      allChecked.value = !allChecked.value
+      bus.emit('allSelect', !allChecked.value)
     }
+    //全选状态改变
+    bus.on('selectLength', (v) => {
+      allChecked.value = v
+    })
 
     //删除选中
     const delSelect = () => {
       bus.emit('delSelect')
+    }
+    // 搜索
+    let searchText = ref()
+    const search = () => {
+      bus.emit('search', searchText.value)
     }
 
     return {
       list,
       allChecked,
       allSelect,
-      delSelect
+      delSelect,
+      search,
+      searchText
     }
   },
 }

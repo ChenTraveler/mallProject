@@ -3,7 +3,7 @@
     <div class="con_box" style="width:300px">
       <!-- 创建密码标题 -->
       <div class="title">创建新密码</div>
-      <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules" label-width="80px" class="demo-ruleForm">
+      <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="80px" class="demo-ruleForm">
         <!-- 旧密码 -->
         <el-form-item label="旧密码" prop="oldPass">
           <el-input v-model="ruleForm.oldPass" :type="view1?'text':'password'"
@@ -70,12 +70,10 @@ const validatePass = (rule: any, value: any, callback: any) => {
     password.value = true;
   } else {
     const regPwd = /^[a-z0-9A-Z]{6,18}$/;
-    console.log(regPwd.test(value));
     if (!regPwd.test(value)) {
       callback(new Error("密码不符合规则！请输入6-18位密码！"));
       password.value = true;
     } else {
-      console.log(111);
       callback();
       password.value = false;
     }
@@ -90,11 +88,9 @@ const validatePass1 = (rule: any, value: any, callback: any) => {
     callback(new Error("Two inputs don't match!"));
   }
   const regPwd = /^[a-z0-9A-Z]{6,18}$/;
-  console.log(regPwd.test(value));
   if (!regPwd.test(value)) {
     callback(new Error("密码不符合规则！请输入6-18位密码！"));
   } else {
-    console.log(111);
     callback();
   }
 };
@@ -107,11 +103,9 @@ const validatePass2 = (rule: any, value: any, callback: any) => {
     callback(new Error("Two inputs don't match!"));
   }
   const regPwd = /^[a-z0-9A-Z]{6,18}$/;
-  console.log(regPwd.test(value));
   if (!regPwd.test(value)) {
     callback(new Error("密码不符合规则！请输入6-18位密码！"));
   } else {
-    console.log(111);
     callback();
   }
 };
@@ -145,10 +139,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
           pwd: ruleForm.oldPass,
         })
         .then((data) => {
-          console.log(data);
           if (data.status == 200) {
-            console.log("密码正确");
-            console.log(newPass);
             if (oldPass == newPass)
               return ElMessage.error("修改失败，新密码与旧密码一致！");
             (proxy as any).$axios
@@ -157,7 +148,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
                 uname: uname,
               })
               .then((data) => {
-                console.log(data);
                 if (data.status) {
                   ElMessage.success(data.data);
                   localStorage.removeItem("token");
@@ -172,16 +162,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
             ElMessage.error("旧密码输入有误！！");
           }
         });
-
-      // .post("/api/updata, { setStr: "password=123456", uname: uname })
-      // .post("/api/setData", { users: "users" })
-      // .then((res) => {
-      //   //请求成功
-      //   console.log(res);
-      // })
-      // .catch((err) => {});
     } else {
-      console.log("error submit!");
       return false;
     }
   });

@@ -16,7 +16,7 @@
       </div>
     </div>
     <ul>
-      <li v-for="(emit) in data.data" :key="emit.id">
+      <li v-for="(emit) in data.list" :key="emit.id">
         <!-- 日期、订单号 -->
         <div class="activity">
           <span class="date">{{emit.date}}</span>
@@ -105,7 +105,7 @@
 </template>
 
 <script>
-import { computed, reactive, getCurrentInstance } from 'vue'
+import { computed, reactive, getCurrentInstance, watch } from 'vue'
 import bus from '../../bus.js'
 export default {
   setup () {
@@ -115,8 +115,22 @@ export default {
 
     const data = reactive({
       //定义空数组接收数据
-      data: []
+      data: [],
+      list: []
     })
+
+    //监听data数据变化达成全选按钮变化
+    watch(data.data, (n, o) => {
+      let selectLength = data.data.reduce(function (previous, current) {
+        return previous + (current.flag == true ? 1 : 0)
+      }, 0)
+      if (selectLength == data.data.length) {
+        selectLength = true
+      } else {
+        selectLength = false
+      }
+      bus.emit('selectLength', selectLength)
+    }, { deep: true })
 
     // 查找并获取数据 00
     proxy.$axios.post('/seldata', { table: 'cart', }).then(d => {
@@ -128,6 +142,8 @@ export default {
         }
         data.data.push(item)
       })
+      data.list = data.data
+      console.log(data.data)
     }).catch(err => console.log(err))
 
     // 全选bus值接收
@@ -156,13 +172,14 @@ export default {
     function delData (id) {
       let delArrId = []
       if (id) {
-        data.data = data.data.filter(item => {
+        console.log(id)
+        data.list = data.list.filter(item => {
           delArrId.push(id)
           return item.id != id
         })
       } else {
         console.log('ssss')
-        data.data = data.data.filter(item => {
+        data.list = data.list.filter(item => {
           if (item.flag == true) {
             delArrId.push(item.id)
           }
@@ -170,23 +187,48 @@ export default {
         })
       }
       // 发起删除数据库请求
-      console.log(delArrId.join('/'))
-      proxy.$axios.post('/delcart', { id: delArrId.join('/') }).then(data => {
+      proxy.$axios.post('/updcart', { setStr: `isshow='f'`, id: `${delArrId.join('/')}` }).then(data => {
         console.log(data)
       })
     }
 
+    //搜索
+    bus.on('search', (v) => {
+      proxy.$axios.post('/seldata', { table: 'cart', other: `title/+ ${v}` }).then(data => {
+        console.log(data)
+      })
+    })
+
+    //过滤筛选
     bus.on('sizer', (v) => {
-      console.log(v);
-      if (v === 1) {
-        // console.log(list);
-        list = tableData.filter((i) => {
-          // console.log(i.id);
-          return i.id === 1
+      // console.log(v);
+      if (v === '所有订单') {
+        data.list = data.data.filter((i) => {
+          return i
         })
-        console.log(list[0].id);
+        // console.log(data.list);
       }
-      return list
+      if (v === '待付款') {
+        data.list = data.data.filter((i) => {
+          return i.state === '待付款'
+        })
+        // console.log(data.list);
+      }
+      if (v === '待发货') {
+        data.list = data.data.filter((i) => {
+          return i.state === '待发货'
+        })
+      }
+      if (v === '待收货') {
+        data.list = data.data.filter((i) => {
+          return i.state === '待收货'
+        })
+      }
+      if (v === '已完成') {
+        data.list = data.data.filter((i) => {
+          return i.state === '已完成'
+        })
+      }
     })
 
 
