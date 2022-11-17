@@ -134,7 +134,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   formEl.validate((valid) => {
     if (valid) {
       (proxy as any).$axios
-        .post("/api/pwd", {
+        .post("/pwd", {
           uname: uname,
           pwd: ruleForm.oldPass,
         })
@@ -143,7 +143,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
             if (oldPass == newPass)
               return ElMessage.error("修改失败，新密码与旧密码一致！");
             (proxy as any).$axios
-              .post("/api/upduser", {
+              .post("/upduser", {
                 setStr: `password=${newPass}`,
                 uname: uname,
               })

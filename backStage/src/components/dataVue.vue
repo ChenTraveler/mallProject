@@ -62,7 +62,7 @@ onMounted(() => {
   let leng = [];
   // 数据请求
   (proxy as any).$axios
-    .post("/api/seldata", { table: "cart" })
+    .post("/seldata", { table: "cart" })
     .then((data) => {
       for (let k in lbData) {
         leng = data.data.filter((data) => {

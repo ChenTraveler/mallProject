@@ -116,7 +116,7 @@ const sendHttp = () => {
   console.log(ruleForm);
   console.log((proxy as any).$axios);
   (proxy as any).$axios
-    .post("/api/login", ruleForm)
+    .post("/login", ruleForm)
     .then((res) => {
       //请求成功
       if (res.status == 200) {

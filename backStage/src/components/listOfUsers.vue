@@ -150,7 +150,7 @@ let title = ref();
 
 let tableData: any = reactive({ arr: [] });
 (proxy as any).$axios
-  .post("/api/udata", {})
+  .post("/udata", {})
   .then((data) => {
     fy.sss = data.data.length;
     data.data.forEach((item) => {
@@ -196,7 +196,7 @@ const handleBefore = (file) => {
 
 // 图片上传成功后
 const handleAvatarSuccess = (res, file) => {
-  if (res.status) {
+  if (res.status == 200) {
     ElMessage({ message: "上传成功！", type: "success" });
     form.pic2 = imgUrl + res.msg;
   } else {
@@ -381,7 +381,7 @@ const confirm = (id, formEl: FormInstance | undefined) => {
       headphoto: form.pic2,
     };
     //数据存入请求
-    (proxy as any).$axios.post("/api/rej", obj2).then((data) => {
+    (proxy as any).$axios.post("/rej", obj2).then((data) => {
       if (data.status == 200) {
         dialogVisible.value = false;
         obj.state = obj.state != false ? "正在使用" : "已注销";
@@ -415,13 +415,13 @@ const confirm = (id, formEl: FormInstance | undefined) => {
     };
     if (form.pass != undefined) {
       (proxy as any).$axios
-        .post("/api/upduser", {
+        .post("/upduser", {
           setStr: `password=${form.pass}`,
           uname: form.name,
         })
         .then((data) => {});
     }
-    (proxy as any).$axios.post("/api/upduser", obj).then((data) => {
+    (proxy as any).$axios.post("/upduser", obj).then((data) => {
       form.pic = form.pic2;
       if (data.status == 200) {
         for (let k in useData) {
@@ -488,7 +488,7 @@ const handleDelete = (index1: number, row) => {
         setStr: "exist='false'",
         uname: row.name,
       };
-      (proxy as any).$axios.post("/api/upduser", obj).then((data) => {
+      (proxy as any).$axios.post("/upduser", obj).then((data) => {
         if (data.status == 200) {
           dialogVisible.value = false;
           ElMessage.success("注销成功！");
@@ -508,7 +508,7 @@ const change = (row) => {
     setStr: "exist=" + "'" + row.state + "'",
     uname: row.name,
   };
-  (proxy as any).$axios.post("/api/upduser", obj).then((data) => {
+  (proxy as any).$axios.post("/upduser", obj).then((data) => {
     dialogVisible.value = false;
   });
 };
