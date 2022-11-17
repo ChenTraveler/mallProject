@@ -46,7 +46,10 @@
                 <span>商品管理</span>
               </template>
               <router-link to="manage">
-                <el-menu-item index="3-2">分类管理</el-menu-item>
+                <el-menu-item index="3-1">分类管理</el-menu-item>
+              </router-link>
+              <router-link to="list">
+                <el-menu-item index="3-2">商品详情</el-menu-item>
               </router-link>
             </el-sub-menu>
             <router-link to="/data">
