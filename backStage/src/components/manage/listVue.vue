@@ -236,11 +236,10 @@ import {
 
 const serveUrl = 'http://192.168.3.21:3000/'
 
-// 图片上传
+// 图片上传pagination
 
 // 点击头像上传时
 const handleBefore = (file) => {
-  console.log(file)
   // form.pic = rawFile.name;
   const url = window.URL || window.webkitURL
   const img = new Image() // 手动创建一个Image对象
@@ -256,8 +255,6 @@ const handleBefore = (file) => {
 
 // 图片上传成功后
 const handleAvatarSuccess1 = (res, file) => {
-  console.log('图片成功上传')
-  console.log(res.msg)
   if (res.status) {
     ElMessage({ message: '上传成功！', type: 'success' })
     form.imgs = res.msg
@@ -266,9 +263,6 @@ const handleAvatarSuccess1 = (res, file) => {
   }
 }
 const handleAvatarSuccess2 = (res, file) => {
-  console.log('图片成功上传')
-  console.log(res.msg)
-  console.log(form.swiper)
   if (res.status) {
     ElMessage({ message: '上传成功！', type: 'success' })
     form.swiper = form.swiper.concat(res.msg)
@@ -277,8 +271,6 @@ const handleAvatarSuccess2 = (res, file) => {
   }
 }
 const handleAvatarSuccess3 = (res, file) => {
-  console.log('图片成功上传')
-  console.log(res.msg)
   if (res.status) {
     ElMessage({ message: '上传成功！', type: 'success' })
     form.colorimg = form.colorimg.concat(res.msg)
@@ -327,7 +319,7 @@ tableData.getdata()
 // 默认翻到第几页
 const currentPage = ref(1)
 // 默认一页几条数据
-const pageSize = ref(4)
+const pageSize = ref(30)
 const submitUpload = () => {
   upload.value.submit()
 }
@@ -354,7 +346,7 @@ const form1 = reactive({
   number: '',
   title: '',
   type: '',
-  isnum: false,
+  isnum: true,
 })
 // 点击添加商品事件
 const add = () => {
@@ -378,6 +370,7 @@ const handles = (a, b, c) => {
 }
 // 点击编辑事件
 const handle = (a, b, c) => {
+  console.log(c)
   form.dialogFormVisible = true
   form.number = c.number
   form.prices = c.prices
@@ -389,6 +382,7 @@ const handle = (a, b, c) => {
 //点击编辑后确定事件
 const fn1 = () => {
   form.dialogFormVisible = false
+  // 上传封面图片
   proxy.$axios
     .post('/updgoods', {
       setStr: `imgs='${form.imgs}'`,
@@ -415,6 +409,17 @@ const fn1 = () => {
   setTimeout(() => {
     tableData.getdata()
   }, 100)
+  console.log(form,111111111111111)
+  // setTimeout(() => {
+  //     form.imgs = ''
+  //     form.number = ''
+  //     form.parameter = ''
+  //     form.prices = ''
+  //     form.stock = ''
+  //     form.colortext = ''
+  //     form.swiper = ''
+  //     form.colorimg = ''
+  //   }, 200)
 }
 
 const fn2 = () => {
@@ -446,19 +451,21 @@ const fn2 = () => {
             .post('/adddata', {
               table: 'details',
               field: 'number,parameter,prices,stock,colortext',
-              data: `${form1.number},'${form1.parameter}',${form1.prices},${form1.stock},'${form1.colortext}'`,
+              data: `${form1.number},'${form1.parameter}','${form1.prices}','${form1.stock}','${form1.colortext}'`,
             })
             .then((d) => {
+              // 添加以后重新拉取数据
+              setTimeout(() => {
+                console.log('重新拉去数据了')
+                tableData.getdata()
+              }, 100)
               console.log(d)
             })
             .catch((er) => console.log(err))
         }
       })
       .catch((er) => console.log(err))
-    // 添加以后重新拉取数据
-    setTimeout(() => {
-      tableData.getdata()
-    }, 100)
+
     setTimeout(() => {
       form1.launchTime = ''
       form1.type = ''
@@ -473,7 +480,11 @@ const fn2 = () => {
       form1.colorimg = ''
     }, 200)
   } else {
-    alert('货号已存在')
+    ElMessage({
+      showClose: true,
+      message: '货号已经存在',
+      center: true,
+    })
   }
 }
 </script>

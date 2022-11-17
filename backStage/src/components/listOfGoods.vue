@@ -9,27 +9,37 @@
       <button @click="ok('cx')">查询</button>
       <button @click="ok('all')">查看所有订单</button>
       <button @click="ok('ywc')">已完成</button>
-      <button @click="ok('wwc')">未完成</button>
+      <button @click="ok('wfk')">未付款</button>
       <button @click="ok('jxz')">进行中</button>
     </div>
     <div class="content">
       <el-table :data="ddd.tableData1.slice((fy.currentPage-1)*fy.pageSize,fy.currentPage*fy.pageSize)"
                 :border="parentBorder"
                 style="width: 100%">
-        <el-table-column prop="date"
-                         label="日期"
-                         min-width="180" />
-        <el-table-column prop="name"
-                         label="商品名称"
-                         min-width="180" />
-        <el-table-column prop="price"
-                         label="价格"
-                         min-width="180" />
-        <el-table-column prop="aaa"
+        <el-table-column prop="orderid"
                          label="订单编号"
+                         align="center"
+                         min-width="180" />
+        <el-table-column prop="stime"
+                         label="提交时间"
+                         align="center"
                          min-width="280" />
+        <el-table-column prop="title"
+                         label="商品名称"
+                         align="center"
+                         min-width="180" />
+        <el-table-column prop="num"
+                         label="购买数量"
+                         align="center"
+                         min-width="80" />
+
+        <el-table-column prop="ftime"
+                         label="完成时间"
+                         align="center"
+                         min-width="180" />
         <el-table-column prop="state"
                          label="状态"
+                         align="center"
                          min-width="180" />
 
       </el-table>
@@ -52,32 +62,35 @@
 </template>
 
 <script  setup>
-import { computed, ref, reactive } from 'vue'
+import { computed, ref, reactive, getCurrentInstance } from 'vue'
 import { Search, Plus } from '@element-plus/icons-vue'
+const { proxy } = getCurrentInstance()
+
 const fy = reactive({
   pageSize: 20,
   currentPage: 1,
   small: false,
   handleSizeChange: () => {},
   handleCurrentChange: () => {},
-  sss: 11,
+  sss: 5,
 })
 let ddd = reactive({
+  datay: [],
   cx: 'all',
   tableData1: computed(() => {
     const ppp = {
       ywc: (i) => i.state == '已完成',
-      wwc: (i) => i.state == '未完成',
+      wfk: (i) => i.state == '未付款',
       jxz: (i) => i.state == '进行中',
       all: (i) => i,
-      cx: (i) => i.aaa.includes(ccc.value1),
+      cx: (i) => i.orderid.includes(ccc.value1),
     }
-    return tableData.filter((i) => {
+    return ddd.datay.filter((i) => {
       return ppp[ddd.cx](i)
     })
   }),
   c: () => {
-    fy.sss = tableData.length
+    fy.sss = ddd.datay.length
   },
 })
 
@@ -87,105 +100,20 @@ const ccc = reactive({
 // 四个点击事件
 const ok = function (e, f, g) {
   ddd.c()
-  // if(e==='cx'&& ccc.value1===''){
-  //  return false
-  // }
   ddd.cx = e
 }
 
 const parentBorder = ref(false)
 const childBorder = ref(false)
 
-const tableData = reactive([
-  {
-    id: 1,
-    date: '2016-05-03',
-    name: 'Tom',
-    price: 199.0,
-    aaa: '42141252151252155125',
-    state: '未完成',
-  },
-  {
-    id: 2,
-    date: '2016-05-02',
-    name: 'John',
-    price: 189.0,
-    aaa: '12515125215215125215',
-    state: '未完成',
-  },
-  {
-    id: 3,
-    date: '2016-05-04',
-    name: 'Morgan',
-    price: 179.0,
-    aaa: '12521512512521521512',
-    state: '已完成',
-  },
-  {
-    id: 4,
-    date: '2016-05-01',
-    name: 'Jessy',
-    price: 169.0,
-    aaa: '6556856856856886585',
-    state: '进行中',
-  },
-  {
-    id: 5,
-    date: '2016-05-01',
-    name: 'Jessy',
-    price: 169.0,
-    aaa: '345634634734734',
-    state: '未完成',
-  },
-  {
-    id: 6,
-    date: '2016-05-01',
-    name: 'Jessy',
-    price: 169.0,
-    aaa: '870780567856743634',
-    state: '进行中',
-  },
-  {
-    id: 7,
-    date: '2016-05-01',
-    name: 'Jessy',
-    price: 169.0,
-    aaa: '97807807078',
-    state: '未完成',
-  },
-  {
-    id: 8,
-    date: '2016-05-01',
-    name: 'Jessy',
-    price: 169.0,
-    aaa: '234234242342432',
-    state: '已完成',
-  },
-  {
-    id: 9,
-    date: '2016-05-01',
-    name: 'Jessy',
-    price: 169.0,
-    aaa: '457455474575474574',
-    state: '未完成',
-  },
-  {
-    id: 10,
-    date: '2016-05-01',
-    name: 'Jessy',
-    price: 169.0,
-    aaa: '768679867967967867',
-    state: '已完成',
-  },
-  {
-    id: 11,
-    date: '2016-05-01',
-    name: 'Jessy',
-    price: 169.0,
-    aaa: '768679867967967867',
-    state: '已完成',
-  },
-])
+// 获取数据
+proxy.$axios
+  .post('/seldata', { table: 'cart' })
+  .then((d) => {
+    ddd.datay = d.data
+    console.log(ddd.datay)
+  })
+  .catch((err) => console.log(err))
 </script>
 
 <style>
@@ -249,9 +177,10 @@ h2 {
   height: 36px;
 }
 .demo-pagination-block {
-  margin: 0 500px;
+  width: 650px;
+  margin: 0 auto;
 }
-.BigFather{
+.BigFather {
   width: 100%;
   overflow: hidden;
 }

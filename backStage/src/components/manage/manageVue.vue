@@ -176,12 +176,11 @@ const tableData = reactive({
 tableData.getdata()
 
 // 点击编辑
-const handleEdit = (index,data) => {
+const handleEdit = (index, data) => {
   form1.dialogFormVisible = true
   form1.name = data.label
   form1.flag = data.flag
   form1.id = data.value
-  
 }
 const form = reactive({
   dialogFormVisible: false,
@@ -189,22 +188,20 @@ const form = reactive({
   cj: '',
 })
 const form1 = reactive({
-  dialogFormVisible: false
+  dialogFormVisible: false,
 })
 const fn1 = () => {
   form1.dialogFormVisible = false
   proxy.$axios
-        .post('/updtype', {
-          name:form1.name,
-          id:form1.id,
-          flag:form1.flag
-        })
-        .then((d) => {
-         alert(d.data)
-         tableData.getdata()
-        })
-        .catch((err) => console.log(err))
-  
+    .post('/updtype', {
+      name: form1.name,
+      id: form1.id,
+      flag: form1.flag,
+    })
+    .then((d) => {
+      tableData.getdata()
+    })
+    .catch((err) => console.log(err))
 }
 const fn2 = () => {
   form.dialogFormVisible = false
@@ -236,16 +233,28 @@ const fn2 = () => {
           data: `"${form.name}","${ids().join('')}"`,
         })
         .then((d) => {
-          alert('添加成功')
+          ElMessage({
+            showClose: true,
+            message: '修改成功',
+            center: true,
+          })
           tableData.getdata()
           form.cj = ''
         })
         .catch((err) => console.log(err))
     } else {
-      alert('请输入分类名称')
+      ElMessage({
+            showClose: true,
+            message: '请输入分类名称',
+            center: true,
+          })
     }
   } else {
-    alert('最高三级分类')
+    ElMessage({
+            showClose: true,
+            message: '最高只能添加到三级分类',
+            center: true,
+          })
   }
 }
 </script>
@@ -256,7 +265,6 @@ h2 {
 }
 .bigFather {
   width: 100%;
-
 }
 .head {
   width: 100%;
@@ -271,5 +279,4 @@ h2 {
   color: #fff !important;
   font-weight: 700;
 }
-
 </style>
