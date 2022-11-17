@@ -20,4 +20,5 @@ export default {
 *{
   background-color: #f7faf9;
 }
+
 </style>

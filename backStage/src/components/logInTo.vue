@@ -147,7 +147,7 @@ const checkAge = (rule: any, value: any, callback: any) => {
   position: relative;
   width: 100%;
   height: 100%;
-  background: url("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fcp.heyeehrm.com%2FContent%2FThemes%2FDefault%2Fimages%2Flogin-img.jpg&refer=http%3A%2F%2Fcp.heyeehrm.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1670400246&t=5ecde163356f359580b367c850214396");
+  background: url("/public/image/werf645654454.webp");
   background-size: 100% 100%;
   .login_title {
     font-size: 26px;

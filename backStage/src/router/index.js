@@ -12,7 +12,7 @@ const routes = [
     component: () => import(/*webpackChunKName*/'../components/afterVue.vue'),
     redirect: '/listOfGoods',
     children: [
-      {//商品列表
+      {//商品管理
         path: '/listOfGoods',
         name: 'goodlist',
         component: () => import('../components/listOfGoods.vue')
@@ -22,11 +22,17 @@ const routes = [
         name: 'users',
         component: () => import('../components/listOfUsers.vue')
       },
-      //商品管理
+      //分类管理
       {
         path: '/manage',
         name: 'manage',
         component: () => import('../components/manage/manageVue.vue')
+      },
+      // 商品列表
+      {
+        path: '/list',
+        name: 'list',
+        component: () => import('../components/manage/listVue.vue')
       },
       //数据分析
       {
@@ -52,11 +58,11 @@ const router = createRouter({
 
 
 // 路由守卫
-router.beforeEach((to, from, next) => {
-  localStorage.setItem('token', 'sdfdsfrefas4123')
-  const { token } = localStorage;
-  console.log(token, localStorage)
-  token || to.name === "login" ? next() : next({ name: "login" });
-});
+// router.beforeEach((to, from, next) => {
+//   localStorage.setItem('token', 'sdfdsfrefas4123')
+//   const { token } = localStorage;
+//   console.log(token, localStorage)
+//   token || to.name === "login" ? next() : next({ name: "login" });
+// });
 
 export default router

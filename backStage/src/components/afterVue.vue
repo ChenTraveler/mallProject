@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="BigFather">
     <el-row class="tac">
       <el-col :span="12">
         <div class="father">
@@ -13,7 +13,7 @@
 
           <div class="box-father">
             <div class="box">
-              <img src="../assets/image/werf645654454.webp" alt="">
+              <img src="/public/image/werf645654454.webp" alt="">
             </div>
             <button>退出</button>
           </div>
@@ -46,7 +46,10 @@
                 <span>商品管理</span>
               </template>
                 <router-link to="manage">
-                  <el-menu-item index="3-2">分类管理</el-menu-item>
+                  <el-menu-item index="3-1">分类管理</el-menu-item>
+                </router-link>
+                <router-link to="list">
+                  <el-menu-item index="3-2">商品详情</el-menu-item>
                 </router-link>
             </el-sub-menu>
             <router-link to="/data">
@@ -70,7 +73,9 @@
             </el-sub-menu>
           </el-menu>
           <!-- 内容区域 -->
-          <router-view></router-view>
+          <router-view>
+          </router-view>
+          
         </div>
       </el-col>
     </el-row>
@@ -185,7 +190,8 @@ const tableData = [
   color: #fff;
 }
 .el-menu--vertical {
-  height: 856px;
+  height: 848px;
+  /* height: 100%; */
 }
 .el-header {
   padding: 0;

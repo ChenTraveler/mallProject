@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="BigFather">
     <h2>订单管理</h2>
     <div class="trade-father">
       <el-input v-model="ccc.value1"
@@ -10,27 +10,41 @@
       <button @click="ok('all')">查看所有订单</button>
       <button @click="ok('ywc')">已完成</button>
       <button @click="ok('wwc')">未完成</button>
+      <button @click="ok('jxz')">进行中</button>
     </div>
     <div class="content">
-      <el-table :data="(ddd.tableData1[0]?ddd.tableData1:tableData).slice((currentPage - 1) * pagesize, currentPage * pagesize)"
+      <el-table :data="ddd.tableData1.slice((fy.currentPage-1)*fy.pageSize,fy.currentPage*fy.pageSize)"
                 :border="parentBorder"
                 style="width: 100%">
         <el-table-column prop="date"
                          label="日期"
-                         width="280" />
+                         min-width="180" />
         <el-table-column prop="name"
                          label="商品名称"
-                         width="280" />
+                         min-width="180" />
         <el-table-column prop="price"
                          label="价格"
-                         width="280" />
+                         min-width="180" />
         <el-table-column prop="aaa"
                          label="订单编号"
-                         width="380" />
+                         min-width="280" />
         <el-table-column prop="state"
                          label="状态"
-                         width="280" />
+                         min-width="180" />
+
       </el-table>
+    </div>
+    <!-- 分页器 -->
+
+    <div class="demo-pagination-block">
+      <el-pagination v-model:currentPage="fy.currentPage"
+                     v-model:page-size="fy.pageSize"
+                     :page-sizes="[3, 5, 8, 20]"
+                     :small="fy.small"
+                     layout="total, sizes, prev, pager, next, jumper"
+                     :total=fy.sss
+                     @size-change="fy.handleSizeChange"
+                     @current-change="fy.handleCurrentChange" />
     </div>
 
   </div>
@@ -39,31 +53,44 @@
 
 <script  setup>
 import { computed, ref, reactive } from 'vue'
-import { Search } from '@element-plus/icons-vue'
-import { Plus } from '@element-plus/icons-vue'
-// import { UploadProps } from 'element-plus'
-const ccc = reactive({
-  value1: '',
-  // value2: ''
+import { Search, Plus } from '@element-plus/icons-vue'
+const fy = reactive({
+  pageSize: 20,
+  currentPage: 1,
+  small: false,
+  handleSizeChange: () => {},
+  handleCurrentChange: () => {},
+  sss: 11,
 })
-// 查询按钮点击
 let ddd = reactive({
-  tableData1: [],
-  // tableData2: []
-})
-// 四个点击事件
-const ok = function (e) {
-  ddd.tableData1 = computed(() => {
+  cx: 'all',
+  tableData1: computed(() => {
     const ppp = {
       ywc: (i) => i.state == '已完成',
       wwc: (i) => i.state == '未完成',
-      cx: (i) => i.aaa == ccc.value1,
+      jxz: (i) => i.state == '进行中',
       all: (i) => i,
+      cx: (i) => i.aaa.includes(ccc.value1),
     }
     return tableData.filter((i) => {
-      return ppp[e](i)
+      return ppp[ddd.cx](i)
     })
-  })
+  }),
+  c: () => {
+    fy.sss = tableData.length
+  },
+})
+
+const ccc = reactive({
+  value1: '',
+})
+// 四个点击事件
+const ok = function (e, f, g) {
+  ddd.c()
+  // if(e==='cx'&& ccc.value1===''){
+  //  return false
+  // }
+  ddd.cx = e
 }
 
 const parentBorder = ref(false)
@@ -116,7 +143,7 @@ const tableData = reactive([
     name: 'Jessy',
     price: 169.0,
     aaa: '870780567856743634',
-    state: '已完成',
+    state: '进行中',
   },
   {
     id: 7,
@@ -162,9 +189,6 @@ const tableData = reactive([
 </script>
 
 <style>
-/* .el-table .el-table__cell {
-  z-index: initial;
-} */
 .trade-father {
   display: flex;
   align-items: center;
@@ -185,9 +209,14 @@ const tableData = reactive([
 .trade-father button:nth-child(4) {
   background-color: red;
   color: #fff;
-  margin-left: 50%;
+  margin-left: 45%;
 }
 .trade-father button:nth-child(5) {
+  background-color: red;
+  color: #fff;
+  margin-left: 1%;
+}
+.trade-father button:nth-child(6) {
   background-color: red;
   color: #fff;
   margin-left: 1%;
@@ -213,5 +242,17 @@ h2 {
 }
 .red {
   color: red;
+}
+.delete {
+  background-color: #fa6a6c;
+  width: 100px;
+  height: 36px;
+}
+.demo-pagination-block {
+  margin: 0 500px;
+}
+.BigFather{
+  width: 100%;
+  overflow: hidden;
 }
 </style>
