@@ -1,27 +1,40 @@
 <template>
-  <FooterVue />
+  <div class="app">
+    <router-view></router-view>
+  </div>
+
 </template>
 
 <script>
-import FooterVue from './components/index/FooterVue.vue'
+import { onMounted } from 'vue'
 export default {
-  components: {
-    FooterVue,
-  },
+  components: {},
   setup() {
-    const a = 2
+    window.addEventListener('beforeunload', (e) => {
+      window.scroll(0, 0)
+    })
+    onMounted(() => {
+      window.addEventListener('beforeunload', (e) => {
+        window.scroll(0, 0)
+      })
+    })
   },
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
+html {
+  // overflow-y: scroll;
+}
 body {
   width: 100%;
-  overflow-x: hidden;
   box-sizing: border-box;
-  text-align: center;
   margin: 0;
   padding: 0;
+}
+* {
+  padding: 0;
+  margin: 0;
 }
 </style>
 

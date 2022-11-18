@@ -98,9 +98,8 @@
         </li>
 
       </ul>
-      <img src="../../../public/images/index/a101.png"
-           alt="">
     </div>
+
   </div>
 </template>
 
@@ -121,7 +120,8 @@ export default {
 <style lang="less" scoped>
 .footer {
   width: 100%;
-
+  background-color: #fff;
+  margin-top: 30px;
   // 导航栏1
   .div {
     width: 100%;
@@ -147,6 +147,7 @@ export default {
     align-items: center;
     // padding-left: 40px;
     border-bottom: 1px solid #d1d7dc;
+    padding: 20px 0;
     // border-top: 1px solid #d1d7dc;
     .biao {
       width: 25%;
@@ -173,7 +174,7 @@ export default {
         h2 {
           font-size: 22px;
           color: #464646;
-          transform: translateY(15px);
+          // transform: translateY(15px);
         }
         p {
           color: #b9b9b9;
@@ -189,6 +190,7 @@ export default {
     width: 1200px;
     margin: 0 auto;
     text-align: center;
+    margin-top: 20px;
     ul {
       width: 100%;
       display: flex;
@@ -223,9 +225,6 @@ export default {
           text-decoration: underline;
         }
       }
-    }
-    > img {
-      transform: translate(-508px, 4px);
     }
   }
 }
