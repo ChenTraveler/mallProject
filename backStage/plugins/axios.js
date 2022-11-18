@@ -1,5 +1,7 @@
 import axios from "axios";
 import qs from "qs";
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
 // axios.defaults.baseURL = ''  //正式
 axios.defaults.baseURL = 'http://192.168.3.21:3000/api' //测试
@@ -30,6 +32,7 @@ axios.interceptors.response.use(
       response.data.status === 1 &&
       response.data.message === '身份认证失败'
     ) {
+      router.push({ path: '/login' })
     }
     return response
   },

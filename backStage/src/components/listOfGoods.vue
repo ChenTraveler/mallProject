@@ -6,6 +6,7 @@
       <button @click="ok('cx')">查询</button>
       <button @click="ok('all')">查看所有订单</button>
       <button @click="ok('ywc')">已完成</button>
+      <button @click="ok('djs')">待结算</button>
       <button @click="ok('wfk')">未付款</button>
       <button @click="ok('jxz')">进行中</button>
     </div>
@@ -55,6 +56,7 @@ let ddd = reactive({
       ywc: (i) => i.state == '已完成',
       wfk: (i) => i.state == '未付款',
       jxz: (i) => i.state == '进行中',
+      djs: (i) => i.state == '待结算',
       all: (i) => i,
       cx: (i) => i.orderid.includes(ccc.value1),
     }
@@ -84,7 +86,6 @@ proxy.$axios
   .post('/seldata', { table: 'cart' })
   .then((d) => {
     ddd.datay = d.data
-    console.log(ddd.datay)
   })
   .catch((err) => console.log(err))
 </script>
@@ -94,6 +95,9 @@ proxy.$axios
   display: flex;
   align-items: center;
   margin-left: 68px;
+}
+.trade-father button{
+  min-width: 100px;
 }
 .trade-father div:nth-child(2) {
   margin-left: 15px;
@@ -107,6 +111,9 @@ proxy.$axios
   line-height: 7.5px;
   margin-left: 15px;
 }
+.trade-father button:nth-child(3) {
+ min-width: 150px;
+}
 .trade-father button:nth-child(4) {
   background-color: red;
   color: #fff;
@@ -118,6 +125,11 @@ proxy.$axios
   margin-left: 1%;
 }
 .trade-father button:nth-child(6) {
+  background-color: red;
+  color: #fff;
+  margin-left: 1%;
+}
+.trade-father button:nth-child(7) {
   background-color: red;
   color: #fff;
   margin-left: 1%;
