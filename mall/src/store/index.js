@@ -22,6 +22,12 @@ export default createStore({
     // 接收数据
   GETDATA(state,data){
     state.data = data
+    if(state.data){
+      state.sum=0
+      state.radio=0
+      state.allcheck=false
+      state.empty=false
+    }
     if(state.data.length===0){
       state.empty=true
     }
@@ -118,6 +124,7 @@ export default createStore({
    },
   //  全选
   CHECKALL(state,flag){
+      state.radio=0
       // 改变全选按钮状态
       state.allcheck=!state.allcheck
       // 根据全选按钮状态改变商品单选状态
@@ -134,9 +141,10 @@ export default createStore({
         state.data.forEach((i)=>{
           state.sum = (state.sum*1 +(i.num*i.price)).toFixed(2)
         })
+        state.radio = state.data.length
       }else{
         state.sum=0
-        
+        state.radio=0
       }
   },
 
@@ -152,8 +160,8 @@ export default createStore({
       //  状态改为不显示
         i.isshow='f'
          // 改变数据库对应的数据
-         axios.post('/updcart',{setStr:`isshow="${i.isshow}"`,id}).then(d=>{
-          // console.log(d);
+         axios.post('/delcart',{id}).then(d=>{
+          console.log(d);
         }).catch(err=>console.log(err))
 
         // 删除当前数据，方便操作
@@ -189,8 +197,8 @@ export default createStore({
         id=i.id
         i.isshow='f'
         // 改变数据库对应的数据
-         axios.post('/updcart',{setStr:`isshow="${i.isshow}"`,id}).then(d=>{
-          // console.log(d);
+         axios.post('/delcart',{id}).then(d=>{
+          console.log(d);
         }).catch(err=>console.log(err))
       }
     })

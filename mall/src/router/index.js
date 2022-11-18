@@ -1,64 +1,94 @@
 import {createRouter,createWebHashHistory} from "vue-router";
-import IndexVue from "../components/index/IndexVue.vue";
-import ShopCar from "../components/ShopCar/ShopCar.vue";
-import OrderVue from '../components/order/OrderVue.vue'
 import ProductDe from '../components/DetailPages/ProductDe.vue'
 import EvaluationBa from '../components/DetailPages/EvaluationBa.vue'
 import All from '../components/DetailPages/All.vue'
 import picture from '../components/DetailPages/picture.vue'
 import zhui from '../components/DetailPages/zhui.vue'
 import Zoom from '../components/DetailPages/Zoom.vue'
+import indexVue from '../components/index/indexVue.vue'
+import mains from '../components/indent/mains.vue'
+import page from '../components/paging/pageVue.vue'
+import shopcar from '../components/ShopCar/ShopCar.vue'
+import order from '../components/order/OrderVue.vue'
+import login from '../components/login/loginVue.vue'
+import res from '../components/login/RegisterVue.vue'
 
-const routes=[
+const routes = [
   {
-    // 首页路由
-    path:"/index",
-    component:IndexVue
+    path:'/',
+    redirect:'/login'
   },
-   // 详情页
- {
-  path:'/zoom',
-  component:Zoom,
-  children:[
-   // 宝贝详情
   {
-  path:'product',
-  component:ProductDe
+    path:'/login',
+    name:'login',
+    component:login
   },
-  // 宝贝评价
   {
-  path:'evaluation',
-  component:EvaluationBa,
-  children:[
-   {
-    path:'all',
-    component:All
-   },
-   {
-    path:'zhui',
-    component:zhui
-   },
-   {
-    path:'picture',
-    component:picture
-   }
-  ]
+    path:'/res',
+    component:res
   },
-  ]
- },
-{
-  // 购物车路由
-  path:"/shopcar",
-  component:ShopCar
-},
-{
-  // 订单页路由
-  path:"/order",
-  component:OrderVue
-},
-];
-const router=createRouter({
-    history: createWebHashHistory(),
-    routes
+  {
+    path:'/index',
+    name:'index',
+    component:indexVue
+  },
+  // 分页
+  {
+    path:'/page',
+    component:page
+  },
+  // 详情页
+  {
+    path:'/zoom',
+    component:Zoom,
+    children:[
+      // 宝贝详情
+     {
+    path:'product',
+    component:ProductDe
+     },
+     // 宝贝评价
+     {
+    path:'evaluation',
+    component:EvaluationBa,
+    children:[
+      {
+        path:'all',
+        component:All
+      },
+      {
+        path:'zhui',
+        component:zhui
+      },
+      {
+        path:'picture',
+        component:picture
+      }
+    ]
+     },
+    ]
+  },
+  // 购物车
+  {
+    path:'/shopcar',
+    component:shopcar
+  },
+  // 订单页
+  {
+    path:'/order',
+    component:order
+  },
+  
+  // 结算
+  {
+    path:'/mains',
+    component:mains
+  }
+]
+
+const router = createRouter({
+  history: createWebHashHistory(),
+  routes
 })
-export default router;
+
+export default router

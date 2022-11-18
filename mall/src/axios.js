@@ -1,11 +1,14 @@
 import axios from "axios";
 import qs from "qs";
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 // axios.defaults.baseURL = ''  //正式
-axios.defaults.baseURL = 'http://192.168.3.21:3000/api' //测试
+axios.defaults.baseURL = 'http://localhost:3000/api' //测试
 
 //post请求头
-axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded;charset=UTF-8";
+axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 //允许跨域携带cookie信息
 // axios.defaults.withCredentials = true;
 //设置超时
@@ -30,7 +33,10 @@ axios.interceptors.response.use(
       response.data.status === 1 &&
       response.data.message === '身份认证失败'
     ) {
+      console.log(response);
+      router.push({name:'login'})
     }
+    console.log(response);
     return response
   },
   // 对响应错误做点什么

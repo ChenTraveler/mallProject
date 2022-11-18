@@ -156,10 +156,11 @@ export default {
     let datas = reactive({
       datas: [],
     })
-    bus.on('datas', (x) => {
-      // console.log(x)
-      datas.datas = x
-    })
+    setTimeout(() => {
+      let a = JSON.parse(localStorage.getItem('data'))
+      datas.datas = a[0].parameter.split(';')
+    }, 500)
+
     return {
       datas,
     }

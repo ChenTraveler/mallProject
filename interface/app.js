@@ -27,7 +27,8 @@ app.use(
       { url: /^\/*/, methods: ['GET'] },
       '/api/login',
       '/api/rej',
-      '/api/upload'
+      '/api/upload',
+      '/api/getcode'
     ] // 除了这些接口，其他都需要认证
   })
 )

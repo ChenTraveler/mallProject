@@ -4,7 +4,8 @@
       <el-col :span="12">
         <div class="father">
           <div class="father3">
-            <el-icon size="36px" class="icon">
+            <el-icon size="36px"
+                     class="icon">
               <Management />
             </el-icon>
             <h1 class="mb-2 title1">
@@ -13,17 +14,24 @@
 
           <div class="box-father">
             <div class="box">
-              <img :src="pic.pic2" alt="">
+              <img :src="pic.pic2"
+                   alt="">
             </div>
             <button @click="exit">退出</button>
           </div>
         </div>
         <!-- 侧边栏区域 -->
         <div class="father2">
-          <el-menu class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" background-color="#363d3d"
-            unique-opened @select='select' :default-active="active">
+          <el-menu class="el-menu-vertical-demo"
+                   @open="handleOpen"
+                   @close="handleClose"
+                   background-color="#363d3d"
+                   unique-opened
+                   @select='select'
+                   :default-active="active">
             <router-link to="/listOfUsers">
-              <el-menu-item index="1" :body="body">
+              <el-menu-item index="1"
+                            :body="body">
                 <el-icon>
                   <User />
                 </el-icon>
@@ -100,19 +108,23 @@ import {
   DataAnalysis,
   Stamp,
   Flag,
-} from "@element-plus/icons-vue";
-import { computed, ref, provide, getCurrentInstance } from "vue";
+} from '@element-plus/icons-vue'
+import { computed, ref, provide, getCurrentInstance } from 'vue'
 import {
   Document,
   Menu as IconMenu,
   Location,
   Setting,
-} from "@element-plus/icons-vue";
+} from '@element-plus/icons-vue'
 // 解密token文件
-import jwt_decode from "jwt-decode";
-import { useRouter } from "vue-router";
-const { proxy } = getCurrentInstance();
-let { uname } = jwt_decode(localStorage.getItem("token"));
+import jwt_decode from 'jwt-decode'
+import { useRouter } from 'vue-router'
+
+const { ctx: $this }= getCurrentInstance();
+const bus = $this.$bus;
+
+const { proxy } = getCurrentInstance()
+let { uname } = jwt_decode(localStorage.getItem('token'))
 
 // 菜单激活
 const active = localStorage.getItem('active')
@@ -120,71 +132,68 @@ const select = (v) => {
   console.log(v)
   localStorage.setItem('active', v)
 }
-const router = useRouter();
-const handleOpen = (key, keyPath) => { };
-const handleClose = (key, keyPath) => { };
+const router = useRouter()
+const handleOpen = (key, keyPath) => {}
+const handleClose = (key, keyPath) => {}
 
-const search = ref("");
+const search = ref('')
 const filterTableData = computed(() =>
   tableData.filter(
     (data) =>
       !search.value ||
       data.name.toLowerCase().includes(search.value.toLowerCase())
   )
-);
-const handleEdit = (index, row) => { };
-const handleDelete = (index, row) => { };
+)
+const handleEdit = (index, row) => {}
+const handleDelete = (index, row) => {}
 
 // 退出登入按钮
 const exit = () => {
-  localStorage.removeItem("token");
+  localStorage.removeItem('token')
   router.push({
-    path: "/login",
-  });
-};
-
+    path: '/login',
+  })
+}
 
 const pic = ref({ pic2: '' })
 
 const fn = 2
 
 proxy.$axios
-  .post("/udata", { other: 'where users.username="' + uname + '"' })
+  .post('/udata', { other: 'where users.username="' + uname + '"' })
   .then((data) => {
     console.log(data.data)
-    pic.value.pic2 = 'http://192.168.3.21:3000/' + data.data[0].headphoto
+    pic.value.pic2 = 'http://localhost:3000/' + data.data[0].headphoto
     console.log(pic)
   })
-  .catch((err) => {
-
-  });
+  .catch((err) => {})
 
 const tableData = [
   {
-    date: "2016-05-03",
-    name: "Tom",
-    address: "No. 189, Grove St, Los Angeles",
-    aaa: "https://n.sinaimg.cn/translate/200/w1080h720/20180909/IcUS-hivtsyk4014010.jpg",
+    date: '2016-05-03',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+    aaa: 'https://n.sinaimg.cn/translate/200/w1080h720/20180909/IcUS-hivtsyk4014010.jpg',
   },
   {
-    date: "2016-05-02",
-    name: "John",
-    address: "No. 189, Grove St, Los Angeles",
-    aaa: "https://n.sinaimg.cn/translate/200/w1080h720/20180909/IcUS-hivtsyk4014010.jpg",
+    date: '2016-05-02',
+    name: 'John',
+    address: 'No. 189, Grove St, Los Angeles',
+    aaa: 'https://n.sinaimg.cn/translate/200/w1080h720/20180909/IcUS-hivtsyk4014010.jpg',
   },
   {
-    date: "2016-05-04",
-    name: "Morgan",
-    address: "No. 189, Grove St, Los Angeles",
-    aaa: "https://n.sinaimg.cn/translate/200/w1080h720/20180909/IcUS-hivtsyk4014010.jpg",
+    date: '2016-05-04',
+    name: 'Morgan',
+    address: 'No. 189, Grove St, Los Angeles',
+    aaa: 'https://n.sinaimg.cn/translate/200/w1080h720/20180909/IcUS-hivtsyk4014010.jpg',
   },
   {
-    date: "2016-05-01",
-    name: "Jessy",
-    address: "No. 189, Grove St, Los Angeles",
-    aaa: "https://n.sinaimg.cn/translate/200/w1080h720/20180909/IcUS-hivtsyk4014010.jpg",
+    date: '2016-05-01',
+    name: 'Jessy',
+    address: 'No. 189, Grove St, Los Angeles',
+    aaa: 'https://n.sinaimg.cn/translate/200/w1080h720/20180909/IcUS-hivtsyk4014010.jpg',
   },
-];
+]
 </script>
 <style>
 * {
@@ -193,6 +202,14 @@ const tableData = [
 }
 [v-cloak] {
   display: none;
+}
+.BigFather,
+.tac {
+  height: 100%;
+  background-color: #f7faf9;
+}
+.father2 {
+  height: 89%;
 }
 .father {
   width: 100%;
@@ -226,8 +243,7 @@ const tableData = [
   color: #fff;
 }
 .el-menu--vertical {
-  height: 848px;
-  /* height: 100%; */
+  height: 100%;
 }
 .el-header {
   padding: 0;

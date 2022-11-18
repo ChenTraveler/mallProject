@@ -88,11 +88,12 @@ import type {
 
 // 解密token文件
 import jwt_decode from "jwt-decode";
+import { useRouter } from "vue-router";
+
 let { uname }: any = jwt_decode(localStorage.getItem("token"));
 
 const labelPosition = ref("right");
 
-import { useRouter } from "vue-router";
 const router = useRouter();
 
 // axios

@@ -6,6 +6,7 @@ import * as ElementPlus from 'element-plus'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import axios from '../plugins/axios.js'
+import mitt from "mitt"
 
 // import "default-passive-events"
 // import VueAxios from 'vue-axios'
@@ -22,6 +23,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 
 app.config.warnHandler = () => null;
 
+app.config.globalProperties.$bus = mitt();
 // 全局挂载axios
 app.config.globalProperties.$axios = axios;
 

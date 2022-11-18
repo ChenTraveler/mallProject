@@ -190,11 +190,12 @@ export default {
   .nav {
     width: 1200px;
     // text-align: center;
-    margin: 0 auto;
+    margin: 20px auto;
     display: flex;
     align-items: center;
     // padding-left: 40px;
     border-bottom: 1px solid #d1d7dc;
+    padding: 20px 0;
     // border-top: 1px solid #d1d7dc;
     .biao {
       width: 25%;
@@ -221,13 +222,13 @@ export default {
         h2 {
           font-size: 22px;
           color: #464646;
-          transform: translateY(15px);
+          // transform: translateY(15px);
         }
         p {
           color: #b9b9b9;
           font-size: 22px;
           padding-top: -15px;
-          transform: translateY(-5px);
+          transform: translateY(-4px);
         }
       }
     }
@@ -237,6 +238,7 @@ export default {
     width: 1200px;
     margin: 0 auto;
     text-align: center;
+    margin-top: 20px;
     ul {
       width: 100%;
       display: flex;

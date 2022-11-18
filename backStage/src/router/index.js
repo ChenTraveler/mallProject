@@ -10,7 +10,7 @@ const routes = [
     path: '/',
     name: 'home',
     component: () => import(/*webpackChunKName*/'../components/afterVue.vue'),
-    redirect: '/manage',
+    redirect: '/login',
     children: [
       {//商品管理
         path: '/listOfGoods',

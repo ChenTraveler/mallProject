@@ -83,7 +83,7 @@ const childBorder = ref(false)
 
 // 获取数据
 proxy.$axios
-  .post('/seldata', { table: 'cart' })
+  .post('/seldata', { table: 'cart',other:`where submit='t'` })
   .then((d) => {
     ddd.datay = d.data
   })
@@ -95,6 +95,7 @@ proxy.$axios
   display: flex;
   align-items: center;
   margin-left: 68px;
+  padding-right: 60px;
 }
 .trade-father button{
   min-width: 100px;

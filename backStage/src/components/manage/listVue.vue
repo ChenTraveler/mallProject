@@ -5,47 +5,76 @@
       <button @click="add">添加商品</button>
     </div>
     <div class="father5">
-      <el-table :data="tableData.datay.slice((currentPage-1)*pageSize,currentPage*pageSize)" style="width: 100%">
-        <el-table-column prop="number" label="商品货号" align="center" />
-        <el-table-column prop="title" label="标题" align="center" />
-        <el-table-column prop="parameter" label="参数" align="center" />
-        <el-table-column prop="prices" label="价格" align="center">
+      <el-table :data="tableData.datay.slice((currentPage-1)*pageSize,currentPage*pageSize)"
+                style="width: 100%">
+        <el-table-column prop="number"
+                         label="商品货号"
+                         align="center" />
+        <el-table-column prop="title"
+                         label="标题"
+                         align="center" />
+        <el-table-column prop="parameter"
+                         label="参数"
+                         align="center" />
+        <el-table-column prop="prices"
+                         label="价格"
+                         align="center">
         </el-table-column>
-        <el-table-column prop="type" label="类型" align="center">
+        <el-table-column prop="type"
+                         label="类型"
+                         align="center">
         </el-table-column>
-        <el-table-column prop="stock" label="库存" align="center" />
-        <el-table-column prop="colortext" label="颜色" align="center" />
+        <el-table-column prop="stock"
+                         label="库存"
+                         align="center" />
+        <el-table-column prop="colortext"
+                         label="颜色"
+                         align="center" />
 
         <!-- 上传多张图片 -->
-        <el-table-column label="封面图片" align="center">
+        <el-table-column label="封面图片"
+                         align="center">
           <template #default="scope">
-             <img v-for="(item,index) in tableData.datay[scope.$index].imgs.split(';')" :key="index"
-              :src="serveUrl + item" alt="" width="40">
-              <img v-for="(item,index) in tableData.datay[scope.row.id-1].imgs.split(';')" :key="index"
-                :src="serveUrl + item" alt="" width="40">
-              
+            <img v-for="(item,index) in tableData.datay[scope.row.id-1].imgs.split(';')"
+                 :key="index"
+                 :src="serveUrl + item"
+                 alt=""
+                 width="40">
+
           </template>
         </el-table-column>
-        <el-table-column label="轮播图片" align="center">
+        <el-table-column label="轮播图片"
+                         align="center">
           <template #default="scope">
-            <img v-for="(item,index) in tableData.datay[scope.$index].swiper.split(';')" :key="index"
-              :src="serveUrl + item" alt="" width="40">
-              <img v-for="(item,index) in tableData.datay[scope.row.id-1].swiper.split(';')" :key="index"
-                :src="serveUrl + item" alt="" width="40">
+            <img v-for="(item,index) in tableData.datay[scope.row.id-1].swiper.split(';')"
+                 :key="index"
+                 :src="serveUrl + item"
+                 alt=""
+                 width="40">
           </template>
         </el-table-column>
-        <el-table-column label="颜色图片" align="center">
+        <el-table-column label="颜色图片"
+                         align="center">
           <template #default="scope">
-            <img v-for="(item,index) in tableData.datay[scope.row.id-1].colorimg.split(';')" :key="index"
-              :src="serveUrl + item" alt="" width="40">
+            <img v-for="(item,index) in tableData.datay[scope.row.id-1].colorimg.split(';')"
+                 :key="index"
+                 :src="serveUrl + item"
+                 alt=""
+                 width="40">
           </template>
         </el-table-column>
 
-        <el-table-column prop="launchTime" label="上架时间" align="center">
+        <el-table-column prop="launchTime"
+                         label="上架时间"
+                         align="center">
         </el-table-column>
-        <el-table-column prop="offshelfTime" label="下架时间" align="center">
+        <el-table-column prop="offshelfTime"
+                         label="下架时间"
+                         align="center">
         </el-table-column>
-        <el-table-column label="编辑" width="250" align="center">
+        <el-table-column label="编辑"
+                         width="250"
+                         align="center">
           <template #default="scope">
             <el-button @click="handle('bj',scope.$index,scope.row)">编辑</el-button>
             <el-button @click="handles('xj',scope.$index,scope.row)">下架</el-button>
@@ -54,32 +83,48 @@
       </el-table>
     </div>
     <!-- 分页器 -->
-    <div class="demo-pagination-block">
-      <el-pagination v-model:current-page="currentPage" v-model:page-size="pageSize" :page-sizes="[2, 4, 5, 6]"
-        layout="total, sizes, prev, pager, next, jumper" :total="300" />
-    </div>
+      <div class="demo-pagination-block">
+        <el-pagination v-model:current-page="currentPage"
+                       v-model:page-size="pageSize"
+                       :page-sizes="[2, 4, 5, 6]"
+                       layout="total, sizes, prev, pager, next, jumper"
+                       :total="tableData.datay.length" />
+      </div>
     <!-- 修改商品的弹窗 -->
-    <el-dialog v-model="form.dialogFormVisible" title="请选择你要修改的类型">
+    <el-dialog v-model="form.dialogFormVisible"
+               title="请选择你要修改的类型">
       <el-form>
         <el-form-item label="上架时间">
-          <input type="text" v-model="form.launchTime" disabled>
+          <input type="text"
+                 v-model="form.launchTime"
+                 disabled>
         </el-form-item>
         <el-form-item label="请输入修改的参数">
-          <el-input v-model="form.parameter" autocomplete="off" />
+          <el-input v-model="form.parameter"
+                    autocomplete="off" />
         </el-form-item>
         <el-form-item label="请输入修改的价格">
-          <el-input v-model="form.prices" autocomplete="off" />
+          <el-input v-model="form.prices"
+                    autocomplete="off" />
         </el-form-item>
         <el-form-item label="请输入修改的库存">
-          <el-input v-model="form.stock" autocomplete="off" />
+          <el-input v-model="form.stock"
+                    autocomplete="off" />
         </el-form-item>
         <el-form-item label="请输入修改的颜色">
-          <el-input v-model="form.colortext" autocomplete="off" />
+          <el-input v-model="form.colortext"
+                    autocomplete="off" />
         </el-form-item>
 
         <span>添加封面图片:</span>
-        <el-upload ref="upload" class="upload-demo" :on-success="handleAvatarSuccess1" :action="serveUrl + 'api/upload'"
-          name="files" :show-file-list="true" multiple :before-upload="handleBefore">
+        <el-upload ref="upload"
+                   class="upload-demo"
+                   :on-success="handleAvatarSuccess1"
+                   :action="serveUrl + 'api/upload'"
+                   name="files"
+                   :show-file-list="true"
+                   multiple
+                   :before-upload="handleBefore">
           <el-button type="primary">
             上传<el-icon class="el-icon--right">
               <Upload />
@@ -88,8 +133,14 @@
         </el-upload>
 
         <span>添加轮播图片:</span>
-        <el-upload ref="upload" class="upload-demo" multiple :on-success="handleAvatarSuccess2"
-          :action="serveUrl + 'api/upload'" name="files" :show-file-list="true" :before-upload="handleBefore">
+        <el-upload ref="upload"
+                   class="upload-demo"
+                   multiple
+                   :on-success="handleAvatarSuccess2"
+                   :action="serveUrl + 'api/upload'"
+                   name="files"
+                   :show-file-list="true"
+                   :before-upload="handleBefore">
           <el-button type="primary">
             上传<el-icon class="el-icon--right">
               <Upload />
@@ -97,8 +148,14 @@
           </el-button>
         </el-upload>
         <span>添加颜色图片:</span>
-        <el-upload ref="upload" class="upload-demo" multiple :on-success="handleAvatarSuccess3"
-          :action="serveUrl + 'api/upload'" name="files" :show-file-list="true" :before-upload="handleBefore">
+        <el-upload ref="upload"
+                   class="upload-demo"
+                   multiple
+                   :on-success="handleAvatarSuccess3"
+                   :action="serveUrl + 'api/upload'"
+                   name="files"
+                   :show-file-list="true"
+                   :before-upload="handleBefore">
           <el-button type="primary">
             上传<el-icon class="el-icon--right">
               <Upload />
@@ -110,7 +167,8 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="form.dialogFormVisible = false">取消</el-button>
-          <el-button type="primary" @click="fn1">
+          <el-button type="primary"
+                     @click="fn1">
             确定
           </el-button>
         </span>
@@ -118,35 +176,46 @@
     </el-dialog>
 
     <!-- 添加商品的弹窗 -->
-    <el-dialog v-model="form1.dialogFormVisible" title="请选择你要添加的数据">
-      <el-form-item label="请输入添加的货号" :aria-disabled="true">
-        <el-input v-model="form1.number" autocomplete="off" />
+    <el-dialog v-model="form1.dialogFormVisible"
+               title="请选择你要添加的数据">
+      <el-form-item label="*请输入添加的货号"
+                    :aria-disabled="true">
+        <el-input v-model="form1.number"
+                  autocomplete="off" />
       </el-form-item>
-      <el-form-item label="请输入添加的标题" :aria-disabled="true">
-        <el-input v-model="form1.title" autocomplete="off" />
+      <el-form-item label="*请输入添加的标题"
+                    :aria-disabled="true">
+        <el-input v-model="form1.title"
+                  autocomplete="off" />
       </el-form-item>
       <el-form>
-        <el-form-item label="请输入添加的参数">
-          <el-input v-model="form1.parameter" autocomplete="off" />
+        <el-form-item label="*请输入添加的参数">
+          <el-input v-model="form1.parameter"
+                    autocomplete="off" />
         </el-form-item>
-        <el-form-item label="请输入添加的价格">
-          <el-input v-model="form1.prices" autocomplete="off" />
+        <el-form-item label="*请输入添加的价格">
+          <el-input v-model="form1.prices"
+                    autocomplete="off" />
         </el-form-item>
-        <el-form-item label="请输入添加的库存">
-          <el-input v-model="form1.stock" autocomplete="off" />
+        <el-form-item label="*请输入添加的库存">
+          <el-input v-model="form1.stock"
+                    autocomplete="off" />
         </el-form-item>
-        <el-form-item label="请输入添加的颜色">
-          <el-input v-model="form1.colortext" autocomplete="off" />
+        <el-form-item label="*请输入添加的颜色">
+          <el-input v-model="form1.colortext"
+                    autocomplete="off" />
         </el-form-item>
-        <el-form-item label="请输入添加的类型">
-          <el-input v-model="form1.type" autocomplete="off" />
+        <el-form-item label="*请输入添加的类型">
+          <el-input v-model="form1.type"
+                    autocomplete="off" />
         </el-form-item>
 
       </el-form>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="form1.dialogFormVisible = false">取消</el-button>
-          <el-button type="primary" @click="fn2">
+          <el-button type="primary"
+                     @click="fn2">
             确定
           </el-button>
         </span>
@@ -166,7 +235,7 @@ import {
   onMounted,
 } from 'vue'
 
-const serveUrl = 'http://192.168.3.21:3000/'
+const serveUrl = 'http://localhost:3000/'
 
 // 图片上传pagination
 
@@ -229,7 +298,7 @@ const submitUpload1 = () => {
 
 const tableData = reactive({
   datay: [],
-  getdata () {
+  getdata() {
     // 获取数据
     proxy.$axios
       .post('/details')
@@ -328,10 +397,11 @@ const fn1 = () => {
     .catch((err) => console.log(err))
   proxy.$axios
     .post('/upddetails', {
-      setStr: `parameter='${form.parameter}',prices='${form.prices}',stock='${form.stock
-        }',colortext='${form.colortext}',swiper= '${form.swiper.join(
-          ';'
-        )}', colorimg='${form.colorimg.join(';')}'`,
+      setStr: `parameter='${form.parameter}',prices='${form.prices}',stock='${
+        form.stock
+      }',colortext='${form.colortext}',swiper= '${form.swiper.join(
+        ';'
+      )}', colorimg='${form.colorimg.join(';')}'`,
       number: form.number,
     })
     .then((d) => {
@@ -348,7 +418,8 @@ const fn1 = () => {
 
 const fn2 = () => {
   form1.dialogFormVisible = false
-  for (let i = 0; i < tableData.datay.length; i++) {
+  if(form1.number!=''&&form1.title!=''&&form1.price!=''&&form1.type!=''&&form1.parameter!=''&&form1.colortext!=''&&form1.stock!=''){
+    for (let i = 0; i < tableData.datay.length; i++) {
     if (tableData.datay[i].number === parseInt(form1.number)) {
       form1.isnum = false
       break
@@ -362,8 +433,9 @@ const fn2 = () => {
       .post('/adddata', {
         table: 'goods',
         field: 'number,price,title,imgs,type,launchTime',
-        data: `${form1.number},${form1.prices.split(';')[0]},'${form1.title
-          }','123456','${form1.type}',now()`,
+        data: `${form1.number},${form1.prices.split(';')[0]},'${
+          form1.title
+        }','123456','${form1.type}',now()`,
       })
       .then((d) => {
         console.log(d)
@@ -406,6 +478,13 @@ const fn2 = () => {
     ElMessage({
       showClose: true,
       message: '货号已经存在',
+      center: true,
+    })
+  }
+  }else{
+    ElMessage({
+      showClose: true,
+      message: '以上字段都为必选字段不能为空',
       center: true,
     })
   }

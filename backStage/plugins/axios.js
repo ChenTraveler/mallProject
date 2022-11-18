@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 // axios.defaults.baseURL = ''  //正式
-axios.defaults.baseURL = 'http://192.168.3.21:3000/api' //测试
+axios.defaults.baseURL = 'http://localhost:3000/api' //测试
 
 //post请求头
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded;charset=UTF-8";

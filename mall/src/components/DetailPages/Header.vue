@@ -33,7 +33,7 @@
              alt="">
         <p>联系客服</p>
       </router-link>
-      <router-link to="/">
+      <router-link to="/index">
         <img src="../../../public/images/DetailPages/a45.png"
              alt="">
         <p>进入店铺</p>

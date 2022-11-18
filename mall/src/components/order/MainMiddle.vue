@@ -105,13 +105,15 @@
 </template>
 
 <script>
+import jwt_decode from 'jwt-decode'
 import { computed, reactive, getCurrentInstance, watch } from 'vue'
 import bus from '../../bus.js'
 export default {
   setup () {
     // 解构代理
     const { proxy } = getCurrentInstance();
-
+    
+    const { uname } = jwt_decode(localStorage.getItem('token'))
 
     const data = reactive({
       //定义空数组接收数据
@@ -133,7 +135,7 @@ export default {
     }, { deep: true })
 
     // 查找并获取数据 00
-    proxy.$axios.post('/seldata', { table: 'cart', }).then(d => {
+    proxy.$axios.post('/seldata', { table: 'cart', other:`where username=${uname} and submit='t'`}).then(d => {
       d.data.forEach(item => {
         if (item.flag == 'f') {
           item.flag = false

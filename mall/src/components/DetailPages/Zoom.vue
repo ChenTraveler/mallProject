@@ -15,7 +15,7 @@
           <!-- 鼠标悬浮时的东西 -->
           <div class="left">
             <img class="leftImg"
-                 :src="qie.src"
+                 :src="url +qie.src"
                  alt="">
             <!-- 鼠标层罩 -->
             <div v-show="top.topShow"
@@ -31,7 +31,7 @@
                class="right">
             <img :style="top.r_img"
                  class="rightImg"
-                 :src="qie.src"
+                 :src="url + qie.src"
                  alt="">
           </div>
 
@@ -41,7 +41,7 @@
                  :key="index"
                  @click="qie.fn(item,index)"
                  :class="qie.style===index? 'boder':''">
-              <img :src="item"
+              <img :src="url+item"
                    alt="">
             </div>
           </div>
@@ -53,15 +53,15 @@
             <h2>{{item.title}}</h2>
           </div>
           <!-- 销量 -->
-          <p>月销{{item.monthsales}}+</p>
+          <p>月销{{sum.nzs(item.monthsales)}}</p>
           <div class="bg">
             <p>天猫双11狂欢</p>
             <p>11月10日 20:00开卖</p>
           </div>
           <!-- 价格 -->
           <div class="price">
-            <p>折后￥<span>{{item.price[0]}}</span></p>
-            <p>双十一折后￥{{item.price[0]}}</p>
+            <p>折后￥<span>{{item.prices[qie.sum]}}</span></p>
+            <p>双十一折后￥{{item.prices[qie.sum]}}</p>
           </div>
 
           <div class="nav">
@@ -118,7 +118,7 @@
                  :class="qie.sum===index? 'boder' : ''"
                  v-for="(i,index) in item.colorimg"
                  :key="index">
-              <img :src="i"
+              <img :src="url + i"
                    alt="">
               <p>{{item.colortext[index]}}</p>
             </div>
@@ -137,9 +137,9 @@
           </div>
           <div class="gou">
             <div>
-              <router-link @click="sum.fn3(sum.sum,item.number)"
+              <router-link @click="sum.fn3(qie.sum,item.number)"
                            to="/mains">立即购买</router-link>
-              <router-link @click="sum.fn4(sum.sum,item.number)"
+              <router-link @click="sum.fn4(qie.sum,item.number)"
                            to="">加入购物车</router-link>
             </div>
             <span>|</span>
@@ -169,11 +169,13 @@
   </div>
 </template>
 <script>
+import jwt_decode from 'jwt-decode'
 import { reactive, ref } from '@vue/reactivity'
 import HeaderVue from './Header.vue'
 import FooterVue from './FooterVue.vue'
 import asideVue from './aside.vue'
 import { useStore } from 'vuex'
+import throttile from '../../throttile.js'
 import {
   onMounted,
   onBeforeUnmount,
@@ -186,70 +188,92 @@ export default {
   name: 'ZoomVue',
   components: { HeaderVue, FooterVue, asideVue },
   setup() {
+    onBeforeMount(() => {
+      document.documentElement.scrollTop = 0
+    })
+    // 解析获取token
+    //data.normal_login_token为请求到的token
+    const { uname } = jwt_decode(localStorage.getItem('token')) // 解析
+
     const { proxy } = getCurrentInstance()
     const data = reactive({
       data: [],
     })
     const store = useStore()
     onBeforeMount(() => {})
-    onMounted(() => {
-      
-      // 接收传入的值
-      bus.on('detailsCliK', (x) => {
-        console.log(x);
-        // 获取数据
-        proxy.$axios
-          .post('/details', {
-            other: `where goods.number=${x} `,
-          })
-          .then((pics) => {
-            data.data = pics.data
-            // console.log(data.data)
-            localStorage.setItem('data', JSON.stringify(data.data))
-            localStorage.setItem('z', 1)
-          })
-          .catch((err) => console.log(err))
-      })
-
-      setTimeout(() => {
-        data.data = JSON.parse(localStorage.getItem('data'))
-        sum.z = localStorage.getItem('z') * 1
-        // console.log(sum.z)
-        data.data[0].parameter = data.data[0].parameter.split(';')
-        data.data[0].swiper = data.data[0].swiper.split(',')
-        data.data[0].detailsimg = data.data[0].detailsimg.split(',')
-        data.data[0].colortext = data.data[0].colortext.split(';')
-        data.data[0].colorimg = data.data[0].colorimg.split(';')
-        data.data[0].price = data.data[0].price.split(';')
-        bus.emit('datas', data.data[0].parameter)
-      }, 200)
-
-      // 监听滚动条
-      window.addEventListener('scroll', () => {
-        var top = Math.floor(
-          document.body.scrollTop ||
-            document.documentElement.scrollTop ||
-            window.pageYOffset
-        )
-        if (top < 400) {
-          bus.emit('height', false)
-        } else {
-          bus.emit('height', true)
-        }
-      })
-      bus.on('top', (x) => {
-        if (x === true) {
-          document.documentElement.scrollTop = 0
-        }
-      })
+    // onMounted(() => {
+    //   console.log(222)
+    //   // 接收传入的值
+    //   setTimeout(() => {
+    bus.on('detailsClick', (x) => {
+      // 获取数据
+      console.log(x)
+      // console.log(x)
+      // x = 5636497
+      proxy.$axios
+        .post('/details', {
+          other: `where goods.number=${x} `,
+        })
+        .then((pics) => {
+          data.data = pics.data
+          // console.log(data.data)
+          localStorage.setItem('data', JSON.stringify(data.data))
+          localStorage.setItem('z', 1)
+        })
+        .catch((err) => console.log(err))
     })
+    // }, 100)
+
+    setTimeout(() => {
+      data.data = JSON.parse(localStorage.getItem('data'))
+      sum.z = localStorage.getItem('z') * 1
+      // console.log(sum.z)
+      data.data[0].parameter = data.data[0].parameter.split(';')
+      data.data[0].swiper = data.data[0].swiper.split(';')
+      // data.data[0].detailsimg = data.data[0].detailsimg.split(',')
+      data.data[0].colortext = data.data[0].colortext.split(';')
+      data.data[0].colorimg = data.data[0].colorimg.split(';')
+      data.data[0].prices = data.data[0].prices.split(';')
+      // bus.emit('datas', data.data[0].parameter)
+      qie.src = data.data[0].swiper[0]
+    }, 200)
+
+    // 监听滚动条
+    window.addEventListener('scroll', () => {
+      var top = Math.floor(
+        document.body.scrollTop ||
+          document.documentElement.scrollTop ||
+          window.pageYOffset
+      )
+      if (top < 400) {
+        bus.emit('height', false)
+      } else {
+        bus.emit('height', true)
+      }
+    })
+    bus.on('top', (x) => {
+      if (x === true) {
+        document.documentElement.scrollTop = 0
+      }
+    })
+    // })
 
     onBeforeUnmount(() => {
       window.removeEventListener('scroll', () => {}) // 离开当前组件别忘记移除事件监听
+      bus.off('detailsClick')
     })
 
     // 选择的件数
     const sum = reactive({
+      nzs(n) {
+        return n < 100
+          ? n
+          : n < 1000
+          ? parseInt(n / 100) + '00+'
+          : n < 10000
+          ? parseInt(n / 1000) + '000+'
+          : parseInt(n / 10000) + '万+'
+      },
       sum: 1,
       // 点击加入购物车的状态 弹窗
       status: false,
@@ -280,26 +304,50 @@ export default {
           alert('最多选择十件')
         }
       },
-      // 立即购买
+      // 立即购买 y是货号
       fn3(x, y) {
-        // console.log(111)
         setTimeout(() => {
-          bus.emit('buy', [x, y, qie.sum])
+          bus.emit('buys', {
+            img: data.data[0].colorimg[x],
+            title: data.data[0].title,
+            guige: data.data[0].colortext[x],
+            price: data.data[0].prices[x],
+            num: sum.sum,
+            number: y,
+          })
+          localStorage.setItem('list', JSON.stringify([]))
         })
       },
-      // 加入购物车
-      fn4(x, y) {
-        console.log(x, qie.sum, y)
-        bus.emit('buyCar', [x, y, qie.sum])
-        // ('buy', [x, y, qie.sum])
-        // sum.status = true
+      // 加入购物车 x是下标 y是货号
+      fn4: throttile(function (x, number) {
+        // 发送请求判断当前的商品是否存在
+        // 不存在的话就直接添加这条数据
+        console.log(data.data[0].colorimg[x])
+        proxy.$axios
+          .post('/addcart', {
+            uname,
+            title: data.data[0].title,
+            img: data.data[0].colorimg[x],
+            guige: data.data[0].colortext[x],
+            num: sum.sum,
+            price: data.data[0].prices[x],
+            number,
+          })
+          .then((e) => {
+            console.log(e)
+          })
+          .catch((err) => console.log(err))
+
+        // 显示弹窗————添加成功
         setTimeout(() => {
           sum.status = true
         })
+        // 隐藏弹窗————添加成功
         setTimeout(() => {
           sum.status = false
         }, 1500)
-      },
+        console.log('节流', x, number)
+      }, 2000),
     })
     // 点击切图
     let qie = reactive({
@@ -354,12 +402,14 @@ export default {
         this.rShow = false
       },
     })
+    const url = ref('http://localhost:3000/')
 
     return {
       top,
       qie,
       sum,
       data,
+      url,
     }
   },
 }
@@ -617,6 +667,7 @@ export default {
             padding: 0 8px;
             margin-left: 20px;
             background-color: rgba(0, 0, 0, 0.06);
+            border: 1px solid #fff;
             img {
               width: 30px;
               height: 30px;
