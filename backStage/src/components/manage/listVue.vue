@@ -19,22 +19,19 @@
         <!-- 上传多张图片 -->
         <el-table-column label="封面图片" align="center">
           <template #default="scope">
-            <<<<<<< HEAD <img v-for="(item,index) in tableData.datay[scope.$index].imgs.split(';')" :key="index"
+             <img v-for="(item,index) in tableData.datay[scope.$index].imgs.split(';')" :key="index"
               :src="serveUrl + item" alt="" width="40">
-              =======
               <img v-for="(item,index) in tableData.datay[scope.row.id-1].imgs.split(';')" :key="index"
                 :src="serveUrl + item" alt="" width="40">
-              >>>>>>> de422bed82d8c7e297b964161ee0a84da24d40e7
+              
           </template>
         </el-table-column>
         <el-table-column label="轮播图片" align="center">
           <template #default="scope">
-            <<<<<<< HEAD <img v-for="(item,index) in tableData.datay[scope.$index].swiper.split(';')" :key="index"
+            <img v-for="(item,index) in tableData.datay[scope.$index].swiper.split(';')" :key="index"
               :src="serveUrl + item" alt="" width="40">
-              =======
               <img v-for="(item,index) in tableData.datay[scope.row.id-1].swiper.split(';')" :key="index"
                 :src="serveUrl + item" alt="" width="40">
-              >>>>>>> de422bed82d8c7e297b964161ee0a84da24d40e7
           </template>
         </el-table-column>
         <el-table-column label="颜色图片" align="center">
