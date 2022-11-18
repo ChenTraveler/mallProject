@@ -1,8 +1,8 @@
 const mysql = require('mysql')
-const host = 'localhost'
-const user = 'root'
-const password = 'chen'
-const database = 'vue3_mall'
+const host = 'localhost' // 地址
+const user = 'root' // 用户
+const password = 'chen' // 密码
+const database = 'vue3_mall' // 库
 
 const db = mysql.createPool({
   host,
@@ -11,9 +11,9 @@ const db = mysql.createPool({
   database
 })
 
+// 创建连接池
 db.getConnection((err, data) => {
-  if (err) throw err
-  console.log('数据库链接成功')
+  if (err) console.log('err', err.message)
 })
 
 module.exports = db

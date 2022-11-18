@@ -55,22 +55,20 @@
 
 - 参数格式：
 
-| 参数名称   | 参数类型 | 是否必选          | 参数说明     |
-| ---------- | -------- | ----------------- | ------------ |
-| number     | Number   | 否（主键）        | 商品货号     |
-| swiper     | String   | 否（数组：;分隔） | 轮播图路径   |
-| options    | String   | 是（数组：JSON）  | 商品规格     |
-| +color     | Object   | ...               | 颜色         |
-| ++img      | String   | ...               | 颜色图片路径 |
-| ++text     | String   | ...               | 颜色文本     |
-| +price     | Number   | ...               | 单价         |
-| +stock     | Number   | ...               | 库存         |
-| discount   | String   | 否（JSON）        | 优惠         |
-| activity   | String   | 否                | 活动         |
-| guarantee  | String   | 否                | 保障         |
-| parameter  | String   | 是（数组：;分隔） | 参数         |
-| delivery   | String   | 否（数组：;分隔） | 配送         |
-| detailsimg | String   | 否（数组：;分隔） | 详情图路径   |
+| 参数名称   | 参数类型 | 是否必选          | 参数说明   |
+| ---------- | -------- | ----------------- | ---------- |
+| number     | Number   | 否（主键）        | 商品货号   |
+| swiper     | String   | 否（数组：;分隔） | 轮播图路径 |
+| colorimg   | String   | 否（数组：;分隔） | 颜色图片   |
+| colortext  | Object   | 否（数组：;分隔） | 颜色       |
+| +price     | Number   | 是（数组：;分隔） | 单价       |
+| +stock     | Number   | 是（数组：;分隔） | 库存       |
+| discount   | String   | 否（JSON）        | 优惠       |
+| activity   | String   | 否                | 活动       |
+| guarantee  | String   | 否                | 保障       |
+| parameter  | String   | 是（数组：;分隔） | 参数       |
+| delivery   | String   | 否（数组：;分隔） | 配送       |
+| detailsimg | String   | 否（数组：;分隔） | 详情图路径 |
 
 - 外键参数：
 
@@ -84,7 +82,7 @@
 
 - 接口URL：/details
 - 链接方式：POST
-- 字段参数包含goods表
+- 注意：字段参数包含goods表，表达式中含关系字段需要加表名，例：where goods.number=123456
 - 参数格式：
 
 | 参数名称 | 是否必选        | 参数类型 | 参数说明 | 示例              |
@@ -171,6 +169,29 @@
 
 
 
+#### 修改密码验证
+
+- 接口URL：/pwd
+- 链接方式：POST
+- 参数格式：
+
+| 参数名称 | 是否必选 | 参数类型 | 参数说明 | 示例   |
+| -------- | -------- | -------- | -------- | ------ |
+| pwd      | 是       | String   | 密码     | 123456 |
+| uname    | 是       | String   | 用户名   | admin  |
+
+- 返回实例
+
+```JSON
+{
+    status: 200,
+    message: 'success',
+    data: true
+}
+```
+
+
+
 ### 用户数据列表
 
 - 列表名称：userdata
@@ -194,7 +215,7 @@
 
 - 接口URL：/udata
 - 链接方式：POST
-- 字段参数包含users表
+- 注意：字段参数包含users表，表达式中含关系字段需要加表名，例：where users.username=“admin”
 - 参数格式：
 
 | 参数名称 | 是否必选        | 参数类型 | 参数说明 | 示例                           |
@@ -406,6 +427,7 @@
 
 - 接口URL：/seldata
 - 链接方式：POST
+- 注意：表达式中含关系字段需要加表名，例：where goods.number=123456
 - 参数格式：
 
 | 参数名称 | 是否必选        | 参数类型 | 参数说明         | 示例               |
@@ -486,8 +508,9 @@
 | 参数名称 | 是否必选         | 参数类型 | 参数说明 | 示例        |
 | -------- | ---------------- | -------- | -------- | ----------- |
 | uname    | 否（需要密码）   | String   | 用户名   | admin       |
-| phone    | 否（无需密码）   | String   | 手机号   | 18012345678 |
-| pwd      | 否（需要用户名） | String   | 密码     |             |
+| phone    | 否（需要验证码） | String   | 手机号   | 18012345678 |
+| pwd      | 否（需要用户名） | String   | 密码     | 123456      |
+| ucode    | 否（需要手机号） | String   | 验证码   | 123456      |
 
 - 返回实例
 
@@ -501,10 +524,23 @@
 
 
 
+### 获取手机登录验证码
+
+- 接口URL：/getcode
+- 链接方式：POST
+- 参数格式：
+
+| 参数名称 | 是否必选 | 参数类型 | 参数说明 | 示例        |
+| -------- | -------- | -------- | -------- | ----------- |
+| phone    |          | String   | 手机号   | 18012345678 |
+
+- 返回实例
+
 ```JSON
 {
     status: 200,
     message: 'success',
-    data: '根据字段表格返回的数据'
+    data: '随机六位验证码'
 }
 ```
+
