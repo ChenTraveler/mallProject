@@ -35,7 +35,7 @@
         <el-table-column label="封面图片"
                          align="center">
           <template #default="scope">
-            <img v-for="(item,index) in tableData.datay[scope.$index].imgs.split(';')"
+            <img v-for="(item,index) in tableData.datay[scope.row.id-1].imgs.split(';')"
                  :key="index"
                  :src="serveUrl + item"
                  alt=""
@@ -45,7 +45,7 @@
         <el-table-column label="轮播图片"
                          align="center">
           <template #default="scope">
-            <img v-for="(item,index) in tableData.datay[scope.$index].swiper.split(';')"
+            <img v-for="(item,index) in tableData.datay[scope.row.id-1].swiper.split(';')"
                  :key="index"
                  :src="serveUrl + item"
                  alt=""
@@ -55,7 +55,7 @@
         <el-table-column label="颜色图片"
                          align="center">
           <template #default="scope">
-            <img v-for="(item,index) in tableData.datay[scope.$index].colorimg.split(';')"
+            <img v-for="(item,index) in tableData.datay[scope.row.id-1].colorimg.split(';')"
                  :key="index"
                  :src="serveUrl + item"
                  alt=""
@@ -309,6 +309,7 @@ const tableData = reactive({
             : null
         }
         tableData.datay = d.data
+        console.log(tableData.datay)
       })
       .catch((err) => console.log(err))
   },
@@ -389,6 +390,7 @@ const fn1 = () => {
       number: form.number,
     })
     .then((d) => {
+      form.imgs=''
       console.log(d)
     })
     .catch((err) => console.log(err))
@@ -403,23 +405,15 @@ const fn1 = () => {
     })
     .then((d) => {
       console.log(d)
+      form.colorimg=[]
+      form.swiper=[]
     })
     .catch((err) => console.log(err))
   // 上传完数据以后重新拉取数据更新
   setTimeout(() => {
     tableData.getdata()
   }, 100)
-  console.log(form,111111111111111)
-  // setTimeout(() => {
-  //     form.imgs = ''
-  //     form.number = ''
-  //     form.parameter = ''
-  //     form.prices = ''
-  //     form.stock = ''
-  //     form.colortext = ''
-  //     form.swiper = ''
-  //     form.colorimg = ''
-  //   }, 200)
+
 }
 
 const fn2 = () => {
