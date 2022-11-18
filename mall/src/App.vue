@@ -1,17 +1,13 @@
 <template>
   <div>
-    <div>
-      <HearedVue></HearedVue>
-    </div>
-
+      <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HearedVue from './index/HearedVue.vue'
 export default {
   components: {
-    HearedVue,
+
   },
   setup() {
     const a = 2

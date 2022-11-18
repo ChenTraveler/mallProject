@@ -2,14 +2,16 @@
   <div class="login_con">
     <div class="login_box">
       <div class="login_title">施华洛世奇后台管理系统</div>
-      <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules" label-width="0px" class="demo-ruleForm">
+      <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="0px" class="demo-ruleForm">
         <!-- 用户名 -->
-        <el-form-item prop="userName">
-          <el-input v-model="ruleForm.userName" :prefix-icon="Avatar" type="text" autocomplete="off" />
+        <el-form-item prop="uname">
+          <el-input v-model="ruleForm.uname" :prefix-icon="Avatar" type="text" autocomplete="off" />
         </el-form-item>
         <!-- 用户密码 -->
-        <el-form-item prop="passWord">
-          <el-input v-model="ruleForm.passWord" :prefix-icon="Lock" type="password" autocomplete="off" />
+        <el-form-item prop="pwd">
+          <el-input v-model="ruleForm.pwd" :prefix-icon="Lock" :type="view?'text':'password'"
+            :suffix-icon="accordingTo?0:view?'View':'Hide'" autocomplete="off" />
+          <i style="position:absolute;right:0;width:25px;height:18px;cursor:pointer;" @click="toView()"></i>
         </el-form-item>
         <!-- 登入与重置 -->
         <el-form-item class="logInToReset">
@@ -22,16 +24,11 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  reactive,
-  ref,
-  getCurrentInstance,
-  defineComponent,
-  toRefs,
-  onMounted,
-} from "vue";
-import type { FormInstance, ElMessage } from "element-plus";
+import { reactive, ref, getCurrentInstance } from "vue";
+import type { ElMessage, FormInstance } from "element-plus";
 import { Avatar, Lock } from "@element-plus/icons-vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
 const ruleFormRef = ref<FormInstance>();
 const { proxy } = getCurrentInstance();
 
@@ -40,40 +37,64 @@ const validatePass = (rule: any, value: any, callback: any) => {
   if (value === "") {
     callback(new Error("请输入用户名！"));
   } else {
-    if (ruleForm.userName !== "") {
+    if (ruleForm.uname !== "") {
       if (!ruleFormRef.value) return;
       ruleFormRef.value.validateField("checkPass", () => null);
     }
-    callback();
+    const regPwd = /^[a-z0-9A-Z]{3,10}$/;
+    if (!regPwd.test(value)) {
+      callback(new Error("请以字母数字组合！，字符串长度在10以内"));
+    } else {
+      callback();
+    }
   }
 };
+
+let accordingTo = ref(false);
+let view = ref(false);
+//用户密码查看
+const toView = () => {
+  view.value = !view.value;
+};
+
 // 密码规则
 const validatePass2 = (rule: any, value: any, callback: any) => {
   if (value === "") {
     callback(new Error("请输入密码！"));
-  } else if (value !== ruleForm.passWord) {
-    callback(new Error("请输入密码！"));
   } else {
-    callback();
+    const regPwd = /^[a-z0-9A-Z]{6,18}$/;
+    if (!regPwd.test(value)) {
+      callback(new Error("密码不符合规则！请输入6-18位密码！"));
+    } else {
+      callback();
+    }
   }
 };
 
+// 用户名称、密码
 const ruleForm = reactive({
-  passWord: "",
-  userName: "",
+  pwd: "123456",
+  uname: "admin",
 });
 
 // 规则定义
 const rules = reactive({
-  passWord: [{ validator: validatePass2, trigger: "blur" }],
-  userName: [{ validator: validatePass, trigger: "blur" }],
+  pwd: [{ validator: validatePass2, trigger: "blur" }],
+  uname: [{ validator: validatePass, trigger: "blur" }],
 });
 
 // 登入
 const submitForm = async (formEl: FormInstance | undefined) => {
-  console.log(formEl.validate());
   if (!formEl) return;
-  sendHttp();
+  formEl.validate((valid) => {
+    if (valid) {
+      console.log("submit!");
+      sendHttp();
+    } else {
+      console.log("error submit!");
+      return false;
+    }
+  });
 };
 
 // 重置
@@ -89,28 +110,35 @@ const successful = () => {
     type: "success",
   });
 };
-//登入失败信息提示
-const failure = () => {
-  ElMessage.error("登入失败");
-};
 
 // 登入请求
 const sendHttp = () => {
-  proxy.$axios
-    .get("/a", ruleForm)
+  console.log(ruleForm);
+  console.log((proxy as any).$axios);
+  (proxy as any).$axios
+    .post("/login", ruleForm)
     .then((res) => {
       //请求成功
-      let data = res.data;
-      console.log(res);
-      successful();
-      // sessionStorage
+      if (res.status == 200) {
+        // 登入成功调用成功信息函数
+        successful();
+        localStorage.setItem("token", res.data);
+        // 菜单初始缓存
+        localStorage.setItem("active", "2");
+        // url重定向
+        router.push({
+          path: "/",
+        });
+      } else {
+        ElMessage.error(res.data + res.message);
+        return 0;
+      }
     })
     .catch((err) => {
+      console.log("请求失败");
       failure();
     });
 };
-console.log(proxy.$axios);
-
 // 信息提示
 const checkAge = (rule: any, value: any, callback: any) => {
   if (!value) {
@@ -135,7 +163,7 @@ const checkAge = (rule: any, value: any, callback: any) => {
   position: relative;
   width: 100%;
   height: 100%;
-  background: url("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fcp.heyeehrm.com%2FContent%2FThemes%2FDefault%2Fimages%2Flogin-img.jpg&refer=http%3A%2F%2Fcp.heyeehrm.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1670400246&t=5ecde163356f359580b367c850214396");
+  background: url("/public/image/werf645654454.webp");
   background-size: 100% 100%;
   .login_title {
     font-size: 26px;
@@ -151,9 +179,9 @@ const checkAge = (rule: any, value: any, callback: any) => {
     background-color: #fff;
     border-radius: 15px;
     padding: 0 25px 15px;
+    box-shadow: 0 0 15px #666;
   }
   .logInToReset {
-    // transform: translate(67%);
     float: right;
   }
 }

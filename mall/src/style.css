@@ -1,4 +1,4 @@
-:root {
+/* :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 24px;
@@ -87,4 +87,17 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+} */
+* {
+  padding: 0;
+}
+body{
+  margin: 0;
+  height: 100%;
+  background-size: cover;
+  overflow-x: hidden;
+}
+
+[v-cloak] {
+    display: none;
 }

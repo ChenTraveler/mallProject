@@ -1,14 +1,27 @@
-<template>
+<template v-cloak>
   <router-view></router-view>
 </template>
 
 <script>
-import { ref } from 'vue'
+import * as echarts from 'echarts'
+import { provide } from 'vue'
 
 export default {
-  setup () { },
+  name: 'App',
+  setup () {
+    provide('ec', echarts)//provide
+  },
+  components: {
+  }
 }
 </script>
 
-<style lang="stylus" scoped></style>
+<style lang="less" scoped>
+[v-cloak] {
+  display: none !important;
+}
+* {
+  background-color: #f7faf9;
+}
 
+</style>
