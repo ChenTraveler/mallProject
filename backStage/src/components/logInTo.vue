@@ -25,7 +25,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref, getCurrentInstance } from "vue";
-import type { ElMessage,FormInstance } from "element-plus";
+import type { ElMessage, FormInstance } from "element-plus";
 import { Avatar, Lock } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
 const router = useRouter();
@@ -113,6 +113,7 @@ const successful = () => {
 
 // 登入请求
 const sendHttp = () => {
+  console.log(1111);
   console.log(ruleForm);
   (proxy as any).$axios
     .post("/login", ruleForm)
@@ -136,7 +137,7 @@ const sendHttp = () => {
     .catch((err) => {
       console.log("请求失败");
       console.log(err);
-      
+
       // failure();
     });
 };

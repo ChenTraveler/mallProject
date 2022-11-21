@@ -4,8 +4,7 @@
       <el-col :span="12">
         <div class="father">
           <div class="father3">
-            <el-icon size="36px"
-                     class="icon">
+            <el-icon size="36px" class="icon">
               <Management />
             </el-icon>
             <h1 class="mb-2 title1">
@@ -14,24 +13,17 @@
 
           <div class="box-father">
             <div class="box">
-              <img :src="pic.pic2"
-                   alt="">
+              <img :src="pic.pic2" alt="">
             </div>
             <button @click="exit">退出</button>
           </div>
         </div>
         <!-- 侧边栏区域 -->
         <div class="father2">
-          <el-menu class="el-menu-vertical-demo"
-                   @open="handleOpen"
-                   @close="handleClose"
-                   background-color="#363d3d"
-                   unique-opened
-                   @select='select'
-                   :default-active="active">
+          <el-menu class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" background-color="#363d3d"
+            unique-opened @select='select' :default-active="active">
             <router-link to="/listOfUsers">
-              <el-menu-item index="1"
-                            :body="body">
+              <el-menu-item index="1" :body="body">
                 <el-icon>
                   <User />
                 </el-icon>
@@ -68,22 +60,14 @@
                 <span>数据统计</span>
               </el-menu-item>
             </router-link>
-            <el-sub-menu index="5">
-              <template #title>
+            <router-link to="/pass">
+              <el-menu-item index="5" :body="body">
                 <el-icon>
                   <Stamp />
                 </el-icon>
                 <span>个人中心</span>
-              </template>
-              <!-- <router-link to="/userInfo">
-                <el-menu-item index="5-1">个人基本信息</el-menu-item>
-              </router-link> -->
-              <router-link :to="{ 
-              name:'pass',
-              }">
-                <el-menu-item index="5-2">修改密码</el-menu-item>
-              </router-link>
-            </el-sub-menu>
+              </el-menu-item>
+            </router-link>
           </el-menu>
           <!-- 内容区域 -->
           <router-view>
@@ -119,9 +103,8 @@ import {
 // 解密token文件
 import jwt_decode from 'jwt-decode'
 import { useRouter } from 'vue-router'
+import bus from '../../plugins/bus'
 
-const { ctx: $this }= getCurrentInstance();
-const bus = $this.$bus;
 
 const { proxy } = getCurrentInstance()
 let { uname } = jwt_decode(localStorage.getItem('token'))
@@ -133,8 +116,8 @@ const select = (v) => {
   localStorage.setItem('active', v)
 }
 const router = useRouter()
-const handleOpen = (key, keyPath) => {}
-const handleClose = (key, keyPath) => {}
+const handleOpen = (key, keyPath) => { }
+const handleClose = (key, keyPath) => { }
 
 const search = ref('')
 const filterTableData = computed(() =>
@@ -144,8 +127,8 @@ const filterTableData = computed(() =>
       data.name.toLowerCase().includes(search.value.toLowerCase())
   )
 )
-const handleEdit = (index, row) => {}
-const handleDelete = (index, row) => {}
+const handleEdit = (index, row) => { }
+const handleDelete = (index, row) => { }
 
 // 退出登入按钮
 const exit = () => {
@@ -156,7 +139,12 @@ const exit = () => {
 }
 
 const pic = ref({ pic2: '' })
+// 更改头像接收值
+bus.on('pic', (v) => {
+  pic.value.pic2 = v
+})
 
+// 初始激活状态值
 const fn = 2
 
 proxy.$axios
@@ -166,7 +154,7 @@ proxy.$axios
     pic.value.pic2 = 'http://localhost:3000/' + data.data[0].headphoto
     console.log(pic)
   })
-  .catch((err) => {})
+  .catch((err) => { })
 
 const tableData = [
   {
