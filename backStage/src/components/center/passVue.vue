@@ -429,7 +429,7 @@ const handleAvatarSuccess = (res, file) => {
       i {
         position: absolute;
         color: #999;
-        font-size: 90px;
+        font-size: 60px;
       }
     }
   }
